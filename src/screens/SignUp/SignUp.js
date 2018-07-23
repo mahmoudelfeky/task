@@ -1,21 +1,50 @@
 import React, { Component } from 'react';
 import { Container, Header, Content, Form, Item, Input, Icon, Button, Text } from 'native-base';
 import { View, ImageBackground, StyleSheet, TouchableOpacity,Image } from "react-native";
+import ImagePicker from "react-native-image-picker";
 
 bg = require("../../assets/1.jpg");
 profileImage = require("../../assets/profile.png");
 export default class SignUp extends Component {
+    state = {
+        pickedImaged: profileImage,
+        picked:false
+      }
+
+
+      pickImageHandler = () => {
+        ImagePicker.showImagePicker({title: "Pick an Image"}, res => {
+          if (res.didCancel) {
+            console.log("User cancelled!");
+          } else if (res.error) {
+            console.log("Error", res.error);
+          } else {
+            this.setState({
+              pickedImaged: { uri: res.uri },
+              picked:true
+            });
+          }
+        });
+      }
+
     render() {
+        let imageWidth= imageHeight = 70;
+        let backgroundColor = "white";
+        if(this.state.picked)
+        {
+            imageWidth= imageHeight = 90;
+            let backgroundColor = "transparent";
+        }
         return (
 
             <Container  >
                 <ImageBackground style={styles.bg} source={bg}>
-
+              
                     
                     <Content>
-                        <View style = {styles.logo}>
-                        <TouchableOpacity>
-                    <Image source = {profileImage} style={{  alignSelf:"center", width: 70,height:70 }} />
+                        <View style = {[styles.logo,{backgroundColor:backgroundColor}]}>
+                        <TouchableOpacity onPress = {this.pickImageHandler}>
+                    <Image source = {this.state.pickedImaged} style={{ borderRadius:50,   width: imageWidth,height:imageHeight }} />
                     </TouchableOpacity>
                     </View>
                         <Form>
@@ -29,7 +58,7 @@ export default class SignUp extends Component {
 
                             <Item last>
                                 <Icon name="mail" style={{ color: `white` }} />
-                                <Input placeholderTextColor="#818181" secureTextEntry placeholder="Email" />
+                                <Input placeholderTextColor="#818181"  placeholder="Email" />
                             </Item>
 
                             <Item last>
@@ -59,7 +88,7 @@ const styles = StyleSheet.create({
         alignSelf: `center`,
         margin: 50,
         borderRadius: 50,
-        backgroundColor: "white",
+        
         width: 90,
         height: 90,
         justifyContent: `center`,
