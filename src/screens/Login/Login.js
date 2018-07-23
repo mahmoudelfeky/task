@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import { Container, Content, Form, Item, Input, Icon, Button, Text } from 'native-base';
-import { View, ImageBackground, StyleSheet, TouchableOpacity } from "react-native";
+import { View, ImageBackground, StyleSheet, TouchableOpacity ,ActivityIndicator } from "react-native";
 import SignUp from '../SignUp/SignUp';
 import FormInput from "../../components/FromInput/FormInput";
-
+import BASE_URL from "../../AppConfig";
 import { Formik } from "formik";
 import * as yup from "yup";
 
@@ -19,10 +19,38 @@ export default class LogIn extends Component {
       }
     })
   }
-  handleSubmit = (values)=>{
-    alert("https://shielded-cove-50419.herokuapp.com/user/signup"
-    )
-  }
+  handleSubmit = async (values, bag) => {
+    const url =BASE_URL+ `/user/login`
+
+    var data = {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      },
+      body:JSON.stringify( {
+        'email': values.email,
+        'password': values.password
+      })
+  };
+  
+    
+    try {
+      
+        let response = await fetch(url, data)
+        let responseJson = await response.json();
+       console.log(responseJson)
+        bag.setSubmitting(false);
+    }
+    catch (error) {
+      alert(error)
+       console.log(error)
+        bag.setSubmitting(false);
+        bag.setErrors(error)
+    }
+
+}
+  
   render() {
     return (
 
@@ -34,9 +62,9 @@ export default class LogIn extends Component {
               <Icon name="md-checkmark" style={{ color: `#FF3366`, fontSize: 60 }} />
             </View>
             <Formik
-          initialValues={{ userName: "", password: ""}}
+          initialValues={{ email: "", password: ""}}
           validationSchema = {yup.object().shape({
-            userName:yup.string().required(),
+            email:yup.string().required().email(),
             password:yup.string().required()
           })}
           onSubmit={this.handleSubmit}
@@ -46,13 +74,13 @@ export default class LogIn extends Component {
 
               <FormInput
                 iconname="ios-person-outline"
-                name="userName"
-                last placeholder="Username"
+                name="email"
+                last placeholder="Email"
                 placeholderTextColor="#818181"
                 style={{ color: "#808080" }} 
-                value = {values.userName}
+                value = {values.email}
                 onChange={setFieldValue}
-                error = {touched.userName&& errors.userName}
+                error = {touched.email&& errors.email}
                 onTouch = {setFieldTouched}
 
                 />
@@ -66,12 +94,13 @@ export default class LogIn extends Component {
                 error = {touched.password&& errors.password}
                 onTouch = {setFieldTouched}
                 />
-
+                {isSubmitting ? <ActivityIndicator size="large" style={{ marginBottom: 50 }} /> :(
               <Button
               onPress={handleSubmit}
               block style={styles.loginButton}>
                 <Text uppercase={false}>Sign In</Text>
               </Button>
+                )}
               </React.Fragment>
           )}
         >

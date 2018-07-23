@@ -8,7 +8,7 @@ import FormInput from "../../components/FromInput/FormInput";
 
 import { Formik } from "formik";
 import * as yup from "yup";
-
+import BASE_URL from "../../AppConfig";
 bg = require("../../assets/1.jpg");
 profileImage = require("../../assets/profile.png");
 export default class SignUp extends Component {
@@ -18,14 +18,15 @@ export default class SignUp extends Component {
         base64:null
     }
     handleSubmit = async (values, bag) => {
-        const url = "https://shielded-cove-50419.herokuapp.com/user/signup"
+        const url = BASE_URL+ `/user/signup`
         const data = new FormData();
         data.append('userName', values.userName); // you can append anyone.
         data.append('email', values.email);
         data.append('password', values.password);
         data.append('userimage', {
             uri: this.state.pickedImaged.uri,
-            type:"multipart/form-data"
+            type: 'image/jpeg',
+            name: 'profile'
         });
 
 
@@ -39,7 +40,10 @@ export default class SignUp extends Component {
                   }
             })
             let responseJson = await response.json();
-            alert("welcome")
+            // alert(JSON.stringify(responseJson))
+            console.log("sssssssssss");
+            console.log(responseJson);
+            
             bag.setSubmitting(false);
         }
         catch (error) {
@@ -139,7 +143,8 @@ export default class SignUp extends Component {
                                         error={touched.password && errors.password}
                                         onTouch={setFieldTouched}
                                     />
-                                    {isSubmitting ? <ActivityIndicator style={{ marginTop: 80 }} /> : (<Button
+                                    {isSubmitting ? <ActivityIndicator size="large" style={{ marginTop: 80 }} /> 
+                                    : (<Button
 
                                         onPress={handleSubmit}
                                         block style={styles.loginButton}>

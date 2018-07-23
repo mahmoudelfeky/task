@@ -2,10 +2,12 @@
 import { Navigation } from "react-native-navigation";
 import Login from "./src/screens/Login/Login";
 import SignUp from "./src/screens/SignUp/SignUp";
+import Home from "./src/screens/Home/Home";
 
 
 Navigation.registerComponent("Task.Login",()=>Login)
 Navigation.registerComponent("Task.SignUp",()=>SignUp)
+Navigation.registerComponent("Task.Home",()=>Home)
 
 
 Navigation.startSingleScreenApp({
