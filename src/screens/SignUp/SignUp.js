@@ -13,7 +13,11 @@ export default class SignUp extends Component {
 
                     
                     <Content>
-                    <Image source = {profileImage} style={{  alignSelf:"center", width: 100,height:100 }} />
+                        <View style = {styles.logo}>
+                        <TouchableOpacity>
+                    <Image source = {profileImage} style={{  alignSelf:"center", width: 70,height:70 }} />
+                    </TouchableOpacity>
+                    </View>
                         <Form>
                             <Item last>
                                 <Icon name="ios-person-outline" style={{ color: `white` }} />
@@ -53,11 +57,11 @@ const styles = StyleSheet.create({
     },
     logo: {
         alignSelf: `center`,
-        margin: 100,
+        margin: 50,
         borderRadius: 50,
         backgroundColor: "white",
-        width: 80,
-        height: 80,
+        width: 90,
+        height: 90,
         justifyContent: `center`,
         alignItems: `center`
     },
