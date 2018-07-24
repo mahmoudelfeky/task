@@ -2,8 +2,8 @@ import React, { Component } from 'react';
 import { Container, Content, Form, Item, Input, Icon, Button, Text } from 'native-base';
 import { View, ImageBackground, StyleSheet, TouchableOpacity, Image, ActivityIndicator } from "react-native";
 import ImagePicker from "react-native-image-picker";
-
-
+import { signUp } from "../../store/actions/userActions";
+import { connect } from "react-redux";
 import FormInput from "../../components/FromInput/FormInput";
 
 import { Formik } from "formik";
@@ -11,7 +11,7 @@ import * as yup from "yup";
 import BASE_URL from "../../AppConfig";
 bg = require("../../assets/1.jpg");
 profileImage = require("../../assets/profile.png");
-export default class SignUp extends Component {
+ class SignUp extends Component {
     state = {
         pickedImaged: profileImage,
         picked: false,
@@ -102,10 +102,10 @@ export default class SignUp extends Component {
                             validationSchema={yup.object().shape({
                                 userName: yup.string().required(),
                                 email: yup.string().email().required(),
-                                password: yup.string().min(6).required()
+                                password: yup.string().required()
 
                             })}
-                            onSubmit={this.handleSubmit}
+                            onSubmit={this.props.onSignUp}
                             render={({ values, handleSubmit, setFieldValue, errors, touched, setFieldTouched, isValid, isSubmitting }) => (
 
                                 <React.Fragment>
@@ -194,3 +194,9 @@ const styles = StyleSheet.create({
         marginBottom: 50
     }
 })
+const mapDispatchToProps = dispatch=>{
+    return{
+      onSignUp:(values,bag)=>dispatch(signUp(values,bag))
+    }
+  }
+export default connect(null,)(SignUp)

@@ -3,7 +3,7 @@ import { Navigation } from "react-native-navigation";
 import Login from "./src/screens/Login/Login";
 import SignUp from "./src/screens/SignUp/SignUp";
 import Home from "./src/screens/Home/Home";
-
+import SideDrawer from "./src/screens/SideDrawer/SideDrawer";
 import { Provider } from 'react-redux';
 import configureStore from './src/store/configureStore';
 
@@ -13,6 +13,8 @@ const store = configureStore();
 Navigation.registerComponent("Task.Login",()=>Login,store,Provider)
 Navigation.registerComponent("Task.SignUp",()=>SignUp,store,Provider)
 Navigation.registerComponent("Task.Home",()=>Home)
+
+Navigation.registerComponent("Task.SideDrawer",()=>SideDrawer)
 
 
 Navigation.startSingleScreenApp({

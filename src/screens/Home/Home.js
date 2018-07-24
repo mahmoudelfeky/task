@@ -15,6 +15,20 @@ const images = [
   require('../../assets/SwiperImages/3.jpg')
 ]
 export default class Home extends Component {
+  constructor(props) {
+    super(props);
+    this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent);
+}
+
+onNavigatorEvent = event => {
+    if (event.type === "NavBarButtonPress") {
+        if (event.id === "sideDrawerToggle") {
+            this.props.navigator.toggleDrawer({
+                side: "left"
+            });
+        } 
+    }  
+}
   render() {
     let imgs = []
     for (let index = 0; index < images.length; index++) {

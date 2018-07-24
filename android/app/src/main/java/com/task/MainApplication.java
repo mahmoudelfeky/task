@@ -3,6 +3,7 @@ package com.task;
 import android.app.Application;
 
 import com.facebook.react.ReactApplication;
+import com.oblador.vectoricons.VectorIconsPackage;
 import com.dylanvann.fastimage.FastImageViewPackage;
 import com.facebook.react.ReactNativeHost;
 import com.facebook.react.ReactPackage;
@@ -11,7 +12,7 @@ import com.facebook.soloader.SoLoader;
 
 import java.util.Arrays;
 import java.util.List;
-
+import com.oblador.vectoricons.VectorIconsPackage;
 import com.reactnativenavigation.NavigationApplication;
 import com.imagepicker.ImagePickerPackage; // <-- add this import
 import com.dylanvann.fastimage.FastImageViewPackage;
@@ -30,6 +31,7 @@ import com.dylanvann.fastimage.FastImageViewPackage;
              // eg. new VectorIconsPackage()
                new ImagePickerPackage()
                ,new FastImageViewPackage()
+               , new VectorIconsPackage()
          );
      }
 

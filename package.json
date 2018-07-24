@@ -16,6 +16,7 @@
     "react-native-navigation": "^1.1.477",
     "react-native-swiper": "^1.5.13",
     "react-native-swiper-flatlist": "^1.0.7",
+    "react-native-vector-icons": "^4.6.0",
     "react-redux": "^5.0.7",
     "redux": "^4.0.0",
     "redux-thunk": "^2.3.0",

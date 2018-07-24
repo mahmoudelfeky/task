@@ -54,6 +54,7 @@
 		36104569D36645689EA7E3F5 /* libFastImage.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F337664346AB42A1BD136BD8 /* libFastImage.a */; };
 		9120C2A55856412CA7BBE0BB /* libRNImagePicker.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6B1610F03B2948AF8101AF7A /* libRNImagePicker.a */; };
 		7CB7962F5428474BAD918566 /* libReactNativeNavigation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7D00BA9E75DE4296BD40D177 /* libReactNativeNavigation.a */; };
+		FD5A687150C04A1BB0DA2F97 /* libRNVectorIcons.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E7549A9B26B64383808636C0 /* libRNVectorIcons.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -379,6 +380,8 @@
 		6B1610F03B2948AF8101AF7A /* libRNImagePicker.a */ = {isa = PBXFileReference; name = "libRNImagePicker.a"; path = "libRNImagePicker.a"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = archive.ar; explicitFileType = undefined; includeInIndex = 0; };
 		F99875C1E9C846C6B1EE3D9C /* ReactNativeNavigation.xcodeproj */ = {isa = PBXFileReference; name = "ReactNativeNavigation.xcodeproj"; path = "../node_modules/react-native-navigation/ios/ReactNativeNavigation.xcodeproj"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = wrapper.pb-project; explicitFileType = undefined; includeInIndex = 0; };
 		7D00BA9E75DE4296BD40D177 /* libReactNativeNavigation.a */ = {isa = PBXFileReference; name = "libReactNativeNavigation.a"; path = "libReactNativeNavigation.a"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = archive.ar; explicitFileType = undefined; includeInIndex = 0; };
+		FD6F1D2AFB0D4363BA8D2BDB /* RNVectorIcons.xcodeproj */ = {isa = PBXFileReference; name = "RNVectorIcons.xcodeproj"; path = "../node_modules/react-native-vector-icons/RNVectorIcons.xcodeproj"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = wrapper.pb-project; explicitFileType = undefined; includeInIndex = 0; };
+		E7549A9B26B64383808636C0 /* libRNVectorIcons.a */ = {isa = PBXFileReference; name = "libRNVectorIcons.a"; path = "libRNVectorIcons.a"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = archive.ar; explicitFileType = undefined; includeInIndex = 0; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -410,6 +413,7 @@
 				36104569D36645689EA7E3F5 /* libFastImage.a in Frameworks */,
 				9120C2A55856412CA7BBE0BB /* libRNImagePicker.a in Frameworks */,
 				7CB7962F5428474BAD918566 /* libReactNativeNavigation.a in Frameworks */,
+				FD5A687150C04A1BB0DA2F97 /* libRNVectorIcons.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -599,6 +603,7 @@
 				4CF9629FDE1746E0854183CB /* FastImage.xcodeproj */,
 				476BFCA71A0F410CA7A390CA /* RNImagePicker.xcodeproj */,
 				F99875C1E9C846C6B1EE3D9C /* ReactNativeNavigation.xcodeproj */,
+				FD6F1D2AFB0D4363BA8D2BDB /* RNVectorIcons.xcodeproj */,
 			);
 			name = Libraries;
 			sourceTree = "<group>";
@@ -1265,12 +1270,14 @@
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SRCROOT)\..\node_modules\react-native-fast-image\ios\FastImage/**",
 					"$(SRCROOT)\..\node_modules\react-native-image-picker\ios",
 					"$(SRCROOT)\..\node_modules\react-native-navigation\ios/**",
+					"$(SRCROOT)\..\node_modules\react-native-vector-icons\RNVectorIconsManager",
 				);
 			};
 			name = Debug;
@@ -1294,12 +1301,14 @@
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SRCROOT)\..\node_modules\react-native-fast-image\ios\FastImage/**",
 					"$(SRCROOT)\..\node_modules\react-native-image-picker\ios",
 					"$(SRCROOT)\..\node_modules\react-native-navigation\ios/**",
+					"$(SRCROOT)\..\node_modules\react-native-vector-icons\RNVectorIconsManager",
 				);
 			};
 			name = Release;
@@ -1324,6 +1333,7 @@
 					"$(SRCROOT)\..\node_modules\react-native-fast-image\ios\FastImage/**",
 					"$(SRCROOT)\..\node_modules\react-native-image-picker\ios",
 					"$(SRCROOT)\..\node_modules\react-native-navigation\ios/**",
+					"$(SRCROOT)\..\node_modules\react-native-vector-icons\RNVectorIconsManager",
 				);
 			};
 			name = Debug;
@@ -1347,6 +1357,7 @@
 					"$(SRCROOT)\..\node_modules\react-native-fast-image\ios\FastImage/**",
 					"$(SRCROOT)\..\node_modules\react-native-image-picker\ios",
 					"$(SRCROOT)\..\node_modules\react-native-navigation\ios/**",
+					"$(SRCROOT)\..\node_modules\react-native-vector-icons\RNVectorIconsManager",
 				);
 			};
 			name = Release;
@@ -1379,12 +1390,14 @@
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SRCROOT)\..\node_modules\react-native-fast-image\ios\FastImage/**",
 					"$(SRCROOT)\..\node_modules\react-native-image-picker\ios",
 					"$(SRCROOT)\..\node_modules\react-native-navigation\ios/**",
+					"$(SRCROOT)\..\node_modules\react-native-vector-icons\RNVectorIconsManager",
 				);
 			};
 			name = Debug;
@@ -1417,12 +1430,14 @@
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SRCROOT)\..\node_modules\react-native-fast-image\ios\FastImage/**",
 					"$(SRCROOT)\..\node_modules\react-native-image-picker\ios",
 					"$(SRCROOT)\..\node_modules\react-native-navigation\ios/**",
+					"$(SRCROOT)\..\node_modules\react-native-vector-icons\RNVectorIconsManager",
 				);
 			};
 			name = Release;
@@ -1454,12 +1469,14 @@
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SRCROOT)\..\node_modules\react-native-fast-image\ios\FastImage/**",
 					"$(SRCROOT)\..\node_modules\react-native-image-picker\ios",
 					"$(SRCROOT)\..\node_modules\react-native-navigation\ios/**",
+					"$(SRCROOT)\..\node_modules\react-native-vector-icons\RNVectorIconsManager",
 				);
 			};
 			name = Debug;
@@ -1491,12 +1508,14 @@
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SRCROOT)\..\node_modules\react-native-fast-image\ios\FastImage/**",
 					"$(SRCROOT)\..\node_modules\react-native-image-picker\ios",
 					"$(SRCROOT)\..\node_modules\react-native-navigation\ios/**",
+					"$(SRCROOT)\..\node_modules\react-native-vector-icons\RNVectorIconsManager",
 				);
 			};
 			name = Release;
