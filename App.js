@@ -17,7 +17,10 @@ Navigation.registerComponent("Task.Home",()=>Home)
 
 Navigation.startSingleScreenApp({
   screen: {
-    screen: 'Task.Home', // unique ID registered with Navigation.registerScreen
-    title: 'Login'
+    screen: 'Task.Login', // unique ID registered with Navigation.registerScreen
+    // title: 'Login', // title of the screen as appears in the nav bar (optional)
+    navigatorStyle: {
+      navBarHidden:true
+    }
   },
 })
