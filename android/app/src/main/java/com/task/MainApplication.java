@@ -3,6 +3,7 @@ package com.task;
 import android.app.Application;
 
 import com.facebook.react.ReactApplication;
+import com.dylanvann.fastimage.FastImageViewPackage;
 import com.facebook.react.ReactNativeHost;
 import com.facebook.react.ReactPackage;
 import com.facebook.react.shell.MainReactPackage;
@@ -13,7 +14,7 @@ import java.util.List;
 
 import com.reactnativenavigation.NavigationApplication;
 import com.imagepicker.ImagePickerPackage; // <-- add this import
-
+import com.dylanvann.fastimage.FastImageViewPackage;
  public class MainApplication extends NavigationApplication {
 
      @Override
@@ -28,6 +29,7 @@ import com.imagepicker.ImagePickerPackage; // <-- add this import
          return Arrays.<ReactPackage>asList(
              // eg. new VectorIconsPackage()
                new ImagePickerPackage()
+               ,new FastImageViewPackage()
          );
      }
 

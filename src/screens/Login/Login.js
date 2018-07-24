@@ -6,10 +6,13 @@ import FormInput from "../../components/FromInput/FormInput";
 import BASE_URL from "../../AppConfig";
 import { Formik } from "formik";
 import * as yup from "yup";
+import { connect } from "react-redux";
+
+import { signIn } from "../../store/actions/userActions";
 
 
 bg = require("../../assets/1.jpg");
-export default class LogIn extends Component {
+ class LogIn extends Component {
   signUp = () => {
     this.props.navigator.push({
       screen: 'Task.SignUp', // unique ID registered with Navigation.registerScreen
@@ -19,37 +22,6 @@ export default class LogIn extends Component {
       }
     })
   }
-  handleSubmit = async (values, bag) => {
-    const url =BASE_URL+ `/user/login`
-
-    var data = {
-      method: 'POST',
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json'
-      },
-      body:JSON.stringify( {
-        'email': values.email,
-        'password': values.password
-      })
-  };
-  
-    
-    try {
-      
-        let response = await fetch(url, data)
-        let responseJson = await response.json();
-       console.log(responseJson)
-        bag.setSubmitting(false);
-    }
-    catch (error) {
-      alert(error)
-       console.log(error)
-        bag.setSubmitting(false);
-        bag.setErrors(error)
-    }
-
-}
   
   render() {
     return (
@@ -67,7 +39,7 @@ export default class LogIn extends Component {
             email:yup.string().required().email(),
             password:yup.string().required()
           })}
-          onSubmit={this.handleSubmit}
+          onSubmit={this.props.onSignIn}
           render={({ values, handleSubmit, setFieldValue , errors , touched ,setFieldTouched , isValid , isSubmitting}) => (
 
             <React.Fragment>
@@ -94,7 +66,7 @@ export default class LogIn extends Component {
                 error = {touched.password&& errors.password}
                 onTouch = {setFieldTouched}
                 />
-                {isSubmitting ? <ActivityIndicator size="large" style={{ marginBottom: 50 }} /> :(
+                {isSubmitting ? <ActivityIndicator size="large" style={{ marginTop: 80 }} /> :(
               <Button
               onPress={handleSubmit}
               block style={styles.loginButton}>
@@ -144,3 +116,10 @@ const styles = StyleSheet.create({
     marginBottom: 50
   }
 })
+
+const mapDispatchToProps = dispatch=>{
+  return{
+    onSignIn:(values,bag)=>dispatch(signIn(values,bag))
+  }
+}
+export default connect(null,mapDispatchToProps)(LogIn)

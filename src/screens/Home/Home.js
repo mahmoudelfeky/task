@@ -1,51 +1,104 @@
-import React, { PureComponent } from 'react';
-import { Text, Dimensions, Image, StyleSheet, View } from 'react-native';
+import React, { Component } from 'react';
+import {
+  AppRegistry,
+  StyleSheet,
+  Text,
+  View,
+  ScrollView
+} from 'react-native';
 
-import SwiperFlatList from 'react-native-swiper-flatlist';
+import Swiper from 'react-native-swiper';
 
-export default class Home extends PureComponent {
+const styles = StyleSheet.create({
+  wrapper: {
+  },
+  slide1: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#9DD6EB',
+  },
+  slide2: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#97CAE5',
+  },
+  slide3: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#92BBD9',
+  },
+  text: {
+    color: '#fff',
+    fontSize: 30,
+    fontWeight: 'bold',
+  }
+})
+
+export default class Home extends Component {
   render() {
     return (
-      <View style={styles.container}>
-        <SwiperFlatList
-          autoplay
-          autoplayDelay={2}
-          autoplayLoop
-          index={2}
-          showPagination
-        >
-          <View style={[styles.child, { backgroundColor: 'tomato' }]}>
-            <Text style={styles.text}>1</Text>
-          </View>
-          <View style={[styles.child, { backgroundColor: 'thistle' }]}>
-            <Text style={styles.text}>2</Text>
-          </View>
-          <View style={[styles.child, { backgroundColor: 'skyblue' }]}>
-            <Text style={styles.text}>3</Text>
-          </View>
-          <View style={[styles.child, { backgroundColor: 'teal' }]}>
-            <Text style={styles.text}>4</Text>
-          </View>
-        </SwiperFlatList>
-      </View>
+      <ScrollView style={{ width: "100%" }}>
+        <View style={{ height: 400 }}>
+          <Swiper
+            loop
+            autoplay
+            style={styles.wrapper} showsButtons={true}>
+            <View style={styles.slide1}>
+              <Text style={styles.text}>Hello Swiper</Text>
+            </View>
+            <View style={styles.slide2}>
+              <Text style={styles.text}>Beautiful</Text>
+            </View>
+            <View style={styles.slide3}>
+              <Text style={styles.text}>And simple</Text>
+            </View>
+          </Swiper>
+        </View>
+        <View style={{
+          justifyContent: 'center',
+          alignItems: 'center',
+          backgroundColor: '#97CAE5', height: 100
+        }}>
+          <Text style={styles.text}>Hello Swiper</Text>
+        </View>
+        <View style={{
+          justifyContent: 'center',
+          alignItems: 'center',
+          backgroundColor: '#97CAE5', height: 100
+        }}>
+          <Text style={styles.text}>Hello Swiper</Text>
+        </View>
+        <View style={{
+          justifyContent: 'center',
+          alignItems: 'center',
+          backgroundColor: '#97CAE5', height: 100
+        }}>
+          <Text style={styles.text}>Hello Swiper</Text>
+        </View>
+        <View style={{
+          justifyContent: 'center',
+          alignItems: 'center',
+          backgroundColor: '#97CAE5', height: 100
+        }}>
+          <Text style={styles.text}>Hello Swiper</Text>
+        </View>
+        <View style={{
+          justifyContent: 'center',
+          alignItems: 'center',
+          backgroundColor: '#97CAE5', height: 100
+        }}>
+          <Text style={styles.text}>Hello Swiper</Text>
+        </View>
+      </ScrollView>
+
+
+
+
     );
   }
 }
 
-export const { width, height } = Dimensions.get('window');
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: 'white'
-  },
-  child: {
-    height: height * 0.5,
-    width,
-    justifyContent: 'center'
-  },
-  text: {
-    fontSize: width * 0.5,
-    textAlign: 'center'
-  }
-});
+AppRegistry.registerComponent('myproject', () => Swiper);
