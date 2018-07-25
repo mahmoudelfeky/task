@@ -6,13 +6,25 @@ import { ListItem, Left, Body, Right, Thumbnail, Text, SearchBar } from 'native-
 import { Header } from "native-base";
 
 import FastImage from 'react-native-fast-image'
+const { width, height } = Dimensions.get('window');
 
+const equalWidth = (width / 2 ) 
 
 class FlowersList extends Component {
   state = {
     page: 1,
     seed: 1,
     refreshing: false
+  }
+
+  startFlowerDetail = (values)=>{
+    this.props.navigator.push({
+      screen: 'Task.FlowerDetail', // unique ID registered with Navigation.registerScreen
+      title: "Flower Detail",
+      passProps: {
+        values
+      }
+})
   }
 
   componentDidMount() {
@@ -61,7 +73,8 @@ class FlowersList extends Component {
   }
   render() {
 
-    return (
+    return (<View style ={styles.container}>
+    <Text>Flowers and bouquets</Text>
       <FlatList
         style={{ flex: 1 }}
         ItemSeparatorComponent={this.renderSeparator}
@@ -75,23 +88,33 @@ class FlowersList extends Component {
         onEndReachedThreshold={.5}
         renderItem={({ item }) => {
           return (
-            <View style ={{flexDirection:"row",justifyContent:"space-between"}}>
-            <ListItem  onPress={() => alert(item.email)}>
+         <TouchableOpacity onPress = {()=>this.startFlowerDetail({
+           uri: item.picture.large,
+           name:item.name.first,
+           price:item.name.last})}>
+            <View  style = {{flexDirection:"column" ,alignItems:"center"}}>
               <FastImage
               style = {styles.image}
                 source={{ uri: item.picture.large }}
-                resizeMode={'stretch'} />
+                resizeMode={'cover'} />
+                <Text>name</Text>
+                <Text>price</Text>
 
-            </ListItem>
             </View>
+            </TouchableOpacity>
           )
         }}
       />
+      </View>
     );
   }
 }
-
+const imageMarign = 5;
 const styles = StyleSheet.create({
+  container:{
+    flexDirection:"column",
+    alignItems:"center",
+     flex:1},
   List: {
     borderBottomWidth: 0,
     borderTopWidth: 0
@@ -108,8 +131,9 @@ const styles = StyleSheet.create({
     borderColor: "#CED0CE"
   },
   image: {
-    width: (Dimensions.get("window").width-80) / 2,
+    width: (Dimensions.get("window").width-imageMarign*4) / 2,
     height: 200,
+    margin:imageMarign
 
   }
 })

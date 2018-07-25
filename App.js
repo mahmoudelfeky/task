@@ -7,7 +7,7 @@ import SideDrawer from "./src/screens/SideDrawer/SideDrawer";
 import { Provider } from 'react-redux';
 import configureStore from './src/store/configureStore';
 import StartHome from "./src/screens/StartHome/StartHome";
-
+import FlowerDetail from "./src/screens/FlowerDetail/FlowerDetail";
 import FlowersList from "./src/screens/FlowersList/FlowersList";
 const store = configureStore();
 
@@ -17,8 +17,8 @@ Navigation.registerComponent("Task.SignUp",()=>SignUp,store,Provider)
 Navigation.registerComponent("Task.FlowersList",()=>FlowersList,store,Provider)
 
 Navigation.registerComponent("Task.Home",()=>Home)
-
 Navigation.registerComponent("Task.SideDrawer",()=>SideDrawer)
+Navigation.registerComponent("Task.FlowerDetail",()=>FlowerDetail)
 
 
 Navigation.startSingleScreenApp({
