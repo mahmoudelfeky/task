@@ -29,6 +29,13 @@ onNavigatorEvent = event => {
         } 
     }  
 }
+loadFlowersList = ()=>{
+  this.props.navigator.push({
+    screen: 'Task.FlowersList', // unique ID registered with Navigation.registerScreen
+    title: "Flowers List",
+    
+})
+}
   render() {
     let imgs = []
     for (let index = 0; index < images.length; index++) {
@@ -75,7 +82,7 @@ onNavigatorEvent = event => {
           <Text>
             Sponsored Flowers
           </Text>
-          <Button danger><Text> View All </Text></Button>
+          <Button onPress = {this.loadFlowersList} danger><Text> View All </Text></Button>
           </View>
         <ScrollView style={{ height: 150 }} horizontal>
           {products2}
@@ -84,7 +91,7 @@ onNavigatorEvent = event => {
           <Text>
             Free Flowers
           </Text>
-          <Button danger><Text> View All </Text></Button>
+          <Button onPress = {this.loadFlowersList} danger><Text> View All </Text></Button>
           </View>
 
         

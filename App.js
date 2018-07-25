@@ -23,11 +23,11 @@ Navigation.registerComponent("Task.FlowerDetail",()=>FlowerDetail)
 
 Navigation.startSingleScreenApp({
   screen: {
-    screen: 'Task.FlowersList', // unique ID registered with Navigation.registerScreen
-    title: 'Florist', // title of the screen as appears in the nav bar (optional)
-    // navigatorStyle: {
-    //   navBarHidden:true
-    // }
+    screen: 'Task.Login', // unique ID registered with Navigation.registerScreen
+    // title: 'Florist', // title of the screen as appears in the nav bar (optional)
+    navigatorStyle: {
+      navBarHidden:true
+    }
   },
 })
 // StartHome();
