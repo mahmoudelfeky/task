@@ -17,11 +17,13 @@ profileImage = require("../../assets/profile.png");
     state = {
         pickedImaged: profileImage,
         picked: false,
-        base64:null
+        type:null
     }
     handleSubmit = async (values, bag) => {
         this.props.onSignUp(values,bag,
-            {picked:this.state.picked,uri:this.state.pickedImaged.uri})
+            {picked:this.state.picked,
+                uri:this.state.pickedImaged.uri,
+            type:this.state.type})
 
     }
 
@@ -41,7 +43,7 @@ profileImage = require("../../assets/profile.png");
             } else {
                 this.setState({
                     pickedImaged: { uri: res.uri },
-                    base64:res.base64,
+                    type:res.type,
                     picked: true
                 });
             }

@@ -62,7 +62,7 @@ export const signUp = (values, bag,image) => {
         data.append('password', values.password);
         data.append('userimage', {
             uri: image.uri,
-            type: 'image/jpeg'
+            type: image.type
         });
 
 
@@ -85,17 +85,16 @@ export const signUp = (values, bag,image) => {
             }
             else
             {
-                console.log(response)
+                alert(JSON.stringify(responseJson))
             }
             
             bag.setSubmitting(false);
         }
         catch (error) {
             bag.setSubmitting(false);
-            console.log(error)
             if(error.message)
             {
-                alert(error.message)
+                alert(JSON.stringify( error.message))
             }
             else{
                 alert("No Internet Connection")
