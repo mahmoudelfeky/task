@@ -2,13 +2,15 @@ import React, { Component } from 'react';
 import { Container, Content, Form, Item, Input, Icon, Button, Text } from 'native-base';
 import { View, ImageBackground, StyleSheet, TouchableOpacity, Image, ActivityIndicator } from "react-native";
 import ImagePicker from "react-native-image-picker";
-import { signUp } from "../../store/actions/userActions";
 import { connect } from "react-redux";
+import { signUp } from "../../store/actions/userActions";
+
+
 import FormInput from "../../components/FromInput/FormInput";
 
 import { Formik } from "formik";
 import * as yup from "yup";
-import BASE_URL from "../../AppConfig";
+
 bg = require("../../assets/1.jpg");
 profileImage = require("../../assets/profile.png");
  class SignUp extends Component {
@@ -18,39 +20,8 @@ profileImage = require("../../assets/profile.png");
         base64:null
     }
     handleSubmit = async (values, bag) => {
-        const url = BASE_URL+ `/user/signup`
-        const data = new FormData();
-        data.append('userName', values.userName); // you can append anyone.
-        data.append('email', values.email);
-        data.append('password', values.password);
-        data.append('userimage', {
-            uri: this.state.pickedImaged.uri,
-            type: 'image/jpeg',
-            name: 'profile'
-        });
-
-
-
-        try {
-            let response = await fetch(url, {
-                method: 'post',
-                body: data,
-                headers: {
-                    'Content-Type': 'multipart/form-data'
-                  }
-            })
-            let responseJson = await response.json();
-            // alert(JSON.stringify(responseJson))
-            console.log("sssssssssss");
-            console.log(responseJson);
-            
-            bag.setSubmitting(false);
-        }
-        catch (error) {
-           console.log(error)
-            bag.setSubmitting(false);
-            bag.setErrors(error)
-        }
+        this.props.onSignUp(values,bag,
+            {picked:this.state.picked,uri:this.state.pickedImaged.uri})
 
     }
 
@@ -102,10 +73,10 @@ profileImage = require("../../assets/profile.png");
                             validationSchema={yup.object().shape({
                                 userName: yup.string().required(),
                                 email: yup.string().email().required(),
-                                password: yup.string().required()
+                                password: yup.string().min(6).required()
 
                             })}
-                            onSubmit={this.props.onSignUp}
+                            onSubmit={this.handleSubmit}
                             render={({ values, handleSubmit, setFieldValue, errors, touched, setFieldTouched, isValid, isSubmitting }) => (
 
                                 <React.Fragment>
@@ -143,8 +114,7 @@ profileImage = require("../../assets/profile.png");
                                         error={touched.password && errors.password}
                                         onTouch={setFieldTouched}
                                     />
-                                    {isSubmitting ? <ActivityIndicator size="large" style={{ marginTop: 80 }} /> 
-                                    : (<Button
+                                    {isSubmitting ? <ActivityIndicator size = "large" style={{ marginTop: 80 }} /> : (<Button
 
                                         onPress={handleSubmit}
                                         block style={styles.loginButton}>
@@ -194,9 +164,11 @@ const styles = StyleSheet.create({
         marginBottom: 50
     }
 })
+
 const mapDispatchToProps = dispatch=>{
     return{
-      onSignUp:(values,bag)=>dispatch(signUp(values,bag))
+        onSignUp:(values,bag,image)=>dispatch(signUp(values,bag,image))
     }
-  }
-export default connect(null,)(SignUp)
+}
+
+export default connect(null,mapDispatchToProps)(SignUp);

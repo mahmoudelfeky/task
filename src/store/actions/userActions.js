@@ -1,4 +1,4 @@
-import { SIGN_IN, SIGN_UP } from "./actionTypes";
+import { SAVE_USER, } from "./actionTypes";
 import { Navigation } from "react-native-navigation";
 import BASE_URL from "../../AppConfig";
 import StartHome from "../../screens/StartHome/StartHome";
@@ -25,6 +25,7 @@ export const signIn = (values, bag) => {
             let responseJson = await response.json();
             bag.setSubmitting(false);
             if(responseJson.user){
+                dispatch(saveUser(responseJson.user))
                 StartHome();
             }
             else
@@ -47,17 +48,21 @@ export const signIn = (values, bag) => {
     }
 }
 
-export const signUp = (values, bag) => {
+export const signUp = (values, bag,image) => {
     return async dispatch => {
+        if(!image.picked)
+        {
+            bag.setSubmitting(false);
+            alert("Iamge is Required")
+            return}
         const url = BASE_URL+ `/user/signup`
         const data = new FormData();
         data.append('userName', values.userName); // you can append anyone.
         data.append('email', values.email);
         data.append('password', values.password);
         data.append('userimage', {
-            uri: this.state.pickedImaged.uri,
-            type: 'image/jpeg',
-            name: 'profile'
+            uri: image.uri,
+            type: 'image/jpeg'
         });
 
 
@@ -71,21 +76,19 @@ export const signUp = (values, bag) => {
                   }
             })
             let responseJson = await response.json();
-            bag.setSubmitting(false);
             if(responseJson.user){
-                Navigation.startSingleScreenApp({
-                    screen: {
-                      screen: 'Task.Home', // unique ID registered with Navigation.registerScreen
-                      title: 'Home', // title of the screen as appears in the nav bar (optional)
-                     
-                    },
-                  })
+
+                
+                
+                dispatch(saveUser(responseJson.user))
+                StartHome();
             }
             else
             {
                 console.log(response)
             }
-
+            
+            bag.setSubmitting(false);
         }
         catch (error) {
             bag.setSubmitting(false);
@@ -99,5 +102,12 @@ export const signUp = (values, bag) => {
             }
         }
 
+    }
+}
+
+const saveUser = data=>{
+    return{
+        type:SAVE_USER,
+        payload:data
     }
 }

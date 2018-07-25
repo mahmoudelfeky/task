@@ -6,7 +6,7 @@ import Home from "./src/screens/Home/Home";
 import SideDrawer from "./src/screens/SideDrawer/SideDrawer";
 import { Provider } from 'react-redux';
 import configureStore from './src/store/configureStore';
-
+import StartHome from "./src/screens/StartHome/StartHome";
 const store = configureStore();
 
 
@@ -26,3 +26,4 @@ Navigation.startSingleScreenApp({
     }
   },
 })
+// StartHome();
