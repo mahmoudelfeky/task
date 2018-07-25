@@ -23,7 +23,10 @@ class FlowersList extends Component {
       title: "Flower Detail",
       passProps: {
         values
-      }
+      },
+    navigatorStyle: {
+      navBarHidden:true
+    }
 })
   }
 

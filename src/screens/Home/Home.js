@@ -32,7 +32,7 @@ onNavigatorEvent = event => {
 loadFlowersList = ()=>{
   this.props.navigator.push({
     screen: 'Task.FlowersList', // unique ID registered with Navigation.registerScreen
-    title: "Flowers List",
+    title: "Flowers List"
     
 })
 }

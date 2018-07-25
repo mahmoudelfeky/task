@@ -3,6 +3,7 @@ import { ScrollView, StyleSheet } from "react-native";
 import FastImage from 'react-native-fast-image';
 import { View } from "native-base";
 import { Container, Button, Content, Card, CardItem, Text, Body } from "native-base";
+import CustomHeader from "../../components/CustomHeader/CustomHeader";
 class FlowerDetail extends Component {
 
   render() {
@@ -17,8 +18,9 @@ class FlowerDetail extends Component {
 
 
       // </ScrollView>
+     
       <Container style={{ backgroundColor: "#F1F3F6" }}>
-
+ <CustomHeader title ="Flower Detail" navigator = {this.props.navigator} />
         <Content >
           <Card style={styles.cardItem}>
             <FastImage

@@ -4,6 +4,7 @@ import { View, ImageBackground, StyleSheet, TouchableOpacity, Image, ActivityInd
 import ImagePicker from "react-native-image-picker";
 import { connect } from "react-redux";
 import { signUp } from "../../store/actions/userActions";
+import CustomHeader from "../../components/CustomHeader/CustomHeader";
 
 
 import FormInput from "../../components/FromInput/FormInput";
@@ -61,6 +62,7 @@ profileImage = require("../../assets/profile.png");
         return (
 
             <Container  >
+                <CustomHeader transparent = {true} navigator = {this.props.navigator} />
                 <ImageBackground style={styles.bg} source={bg}>
 
 
