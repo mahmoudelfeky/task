@@ -1,54 +1,39 @@
-import React, { Component } from "react"
-import { View, Text, StatusBar, TouchableOpacity, Platform, StyleSheet } from "react-native";
-import { Icon, Button } from "native-base";
-import { Navigation } from "react-native-navigation";
+import React, { Component } from 'react';
+import { Container, Header, Left, Body, Right, Button, Icon, Title } from 'native-base';
+import Cart from "../../components/Cart/Cart";
 import FastImage from "react-native-fast-image";
+const LogoImage  =require(".././../assets/flowerLogo.png");
+export default class CustomHeader extends Component {
 
-class AppHeader extends Component {
-
-goBack = ()=>{
-    this.props.navigator.pop({
-        animated: true, // does the pop have transition animation or does it happen immediately (optional)
-        animationType: 'fade', // 'fade' (for both) / 'slide-horizontal' (for android) does the pop have different transition animation (optional)
-    });
-}
-    render() {
- return (
-     <View style = {styles.statusBar}>
-     <TouchableOpacity style ={{backgroundColor}} onPress = {this.goBack}>
-     <Icon name="md-arrow-back" style = {{marginLeft:10,marginRight:5}}  />
-     </TouchableOpacity>
-     <FastImage/>
-     <Text style = {styles.title}>{this.props.title}</Text>
-     </View>
-        );
-    }
-
-}
-
-const styles = {
-    statusBar:{
-        width:`100%`,
-        height:`8%`,
-        backgroundColor:`white`,
+  render() {
+      let logo  = null;
+      if(this.props.logo)
+      logo = (
+        <FastImage
        
-        flexDirection:`row`,
-        alignItems:`center`,
-        shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.2,
-    marginBottom: 10,
-    elevation: 2,
-    position: 'relative'
-    },
-    title:{
-        alignSelf:`center`,
-        color:`black`,
-        fontWeight:`bold`,
-        fontSize:20,
-        marginLeft:5,
-        marginRight:5
-    }
+        source={LogoImage}
+       style = {{width:50,height:"100%" , alignSelf:"center"}}
+        resizeMode={'stretch'} />
+      )
+      let cart  = null;
+      if(this.props.cart)
+      cart = (
+        <Cart/>
+      )
+    return (
+        <Header transparent ={this.props.transparent} style = {{width:"100%"}}>
+          <Left>
+            <Button transparent onPress = {this.props.buttonAction}>
+              <Icon name={this.props.name}  style={{fontSize: 33 , color:this.props.color}} />
+            </Button>
+          </Left>
+          <Body>
+          {  logo}
+          </Body>
+          <Right>
+           {cart}
+          </Right>
+        </Header>
+    );
+  }
 }
-
-export default AppHeader;

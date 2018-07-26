@@ -24,8 +24,12 @@ const startTabs = () => {
                                 id: "sideDrawerToggle"
                             }
                         ]
+                    },
+                    navigatorStyle: {
+                        navBarHidden:true
                     }
-                }
+                },
+                
             ],
             tabsStyle: {
                 tabBarSelectedButtonColor: "#262262"

@@ -4,9 +4,8 @@ import { View, ImageBackground, StyleSheet, TouchableOpacity, Image, ActivityInd
 import ImagePicker from "react-native-image-picker";
 import { connect } from "react-redux";
 import { signUp } from "../../store/actions/userActions";
+
 import CustomHeader from "../../components/CustomHeader/CustomHeader";
-
-
 import FormInput from "../../components/FromInput/FormInput";
 
 import { Formik } from "formik";
@@ -20,7 +19,13 @@ profileImage = require("../../assets/profile.png");
         picked: false,
         type:null
     }
-    handleSubmit = async (values, bag) => {
+    goBack = ()=>{
+        this.props.navigator.pop({
+            animated: true, // does the pop have transition animation or does it happen immediately (optional)
+            animationType: 'fade', // 'fade' (for both) / 'slide-horizontal' (for android) does the pop have different transition animation (optional)
+        });
+    }
+    handleSubmit =  (values, bag) => {
         this.props.onSignUp(values,bag,
             {picked:this.state.picked,
                 uri:this.state.pickedImaged.uri,
@@ -62,9 +67,9 @@ profileImage = require("../../assets/profile.png");
         return (
 
             <Container  >
-                <CustomHeader transparent = {true} navigator = {this.props.navigator} />
                 <ImageBackground style={styles.bg} source={bg}>
 
+                <CustomHeader name = "md-arrow-back" navigator = {this.props.navigator} buttonAction = {this.goBack} transparent = {true} color ="black"/>
 
                     <Content>
                         <View style={[styles.logo, { backgroundColor: backgroundColor }]}>
@@ -77,7 +82,7 @@ profileImage = require("../../assets/profile.png");
                             validationSchema={yup.object().shape({
                                 userName: yup.string().required(),
                                 email: yup.string().email().required(),
-                                password: yup.string().min(6).required()
+                                password: yup.string().required()
 
                             })}
                             onSubmit={this.handleSubmit}

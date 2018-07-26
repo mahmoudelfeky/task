@@ -4,6 +4,7 @@ import { connect } from "react-redux";
 import { getFlowers, handleMore } from "../../store/actions/flowersActions";
 import { ListItem, Left, Body, Right, Thumbnail, Text, SearchBar } from 'native-base';
 import { Header } from "native-base";
+import CustomHeader from "../../components/CustomHeader/CustomHeader";
 
 import FastImage from 'react-native-fast-image'
 const { width, height } = Dimensions.get('window');
@@ -74,10 +75,17 @@ class FlowersList extends Component {
       </View>
     );
   }
+  goBack = ()=>{
+    this.props.navigator.pop({
+        animated: true, // does the pop have transition animation or does it happen immediately (optional)
+        animationType: 'fade', // 'fade' (for both) / 'slide-horizontal' (for android) does the pop have different transition animation (optional)
+    });
+}
   render() {
 
     return (<View style ={styles.container}>
-    <Text>Flowers and bouquets</Text>
+     <CustomHeader name="md-arrow-back" navigator={this.props.navigator} cart ={true} color ="black" logo = {true} title="FlowersList" transparent = {true} buttonAction = {this.goBack} />
+    {/* <Text>Flowers and bouquets</Text> */}
       <FlatList
         style={{ flex: 1 }}
         ItemSeparatorComponent={this.renderSeparator}

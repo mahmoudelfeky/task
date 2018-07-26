@@ -24,12 +24,11 @@ export const signIn = (values, bag) => {
             let response = await fetch(url, data)
             let responseJson = await response.json();
             bag.setSubmitting(false);
-            if(responseJson.user){
+            if (responseJson.user) {
                 dispatch(saveUser(responseJson.user))
                 StartHome();
             }
-            else
-            {
+            else {
                 console.log(response)
             }
 
@@ -37,66 +36,66 @@ export const signIn = (values, bag) => {
         catch (error) {
             bag.setSubmitting(false);
             console.log(error)
-            if(error.message)
-            {
+            if (error.message) {
                 alert(error.message)
             }
-            else{
+            else {
                 alert("No Internet Connection")
             }
         }
     }
 }
 
-export const signUp = (values, bag,image) => {
+export const signUp = (values, bag, image) => {
     return async dispatch => {
-        if(!image.picked)
-        {
+        if (!image.picked) {
             bag.setSubmitting(false);
             alert("Iamge is Required")
-            return}
-        const url = BASE_URL+ `/user/signup`
+            return
+        }
+        // alert(image.uri)
+        // return;
+        const url = BASE_URL+`/user/signup`
         const data = new FormData();
         data.append('userName', values.userName); // you can append anyone.
         data.append('email', values.email);
         data.append('password', values.password);
         data.append('userimage', {
-            uri: image.uri,
-            type: image.type
+            uri:image.uri,
+            type:`${image.type}`,
+            name: 'dsds'
         });
 
-
-
+       
         try {
             let response = await fetch(url, {
                 method: 'post',
                 body: data,
                 headers: {
                     'Content-Type': 'multipart/form-data'
-                  }
+                }
             })
+            console.log("HEre 2")
             let responseJson = await response.json();
-            if(responseJson.user){
+            if (responseJson.user) {
 
-                
-                
+
+
                 dispatch(saveUser(responseJson.user))
                 StartHome();
             }
-            else
-            {
+            else {
                 alert(JSON.stringify(responseJson))
             }
-            
+
             bag.setSubmitting(false);
         }
         catch (error) {
             bag.setSubmitting(false);
-            if(error.message)
-            {
-                alert(JSON.stringify( error.message))
+            if (error.message) {
+                alert(JSON.stringify(error.message))
             }
-            else{
+            else {
                 alert("No Internet Connection")
             }
         }
@@ -104,9 +103,9 @@ export const signUp = (values, bag,image) => {
     }
 }
 
-const saveUser = data=>{
-    return{
-        type:SAVE_USER,
-        payload:data
+const saveUser = data => {
+    return {
+        type: SAVE_USER,
+        payload: data
     }
 }

@@ -9,6 +9,7 @@ import {
 import { Button } from "native-base";
 import Swiper from 'react-native-swiper';
 import FastImage from 'react-native-fast-image'
+import CustomHeader from "../../components/CustomHeader/CustomHeader";
 const images = [
   require('../../assets/SwiperImages/1.jpg'),
   require('../../assets/SwiperImages/2.jpg'),
@@ -17,30 +18,28 @@ const images = [
 export default class Home extends Component {
   constructor(props) {
     super(props);
-    this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent);
-}
+  
+  }
+  toggleDrawer = () => {
+    this.props.navigator.toggleDrawer({
+      side: "left"
+    });
+  }
+  loadFlowersList = () => {
+    this.props.navigator.push({
+      screen: 'Task.FlowersList', // unique ID registered with Navigation.registerScreen
+      title: "Flowers List",
+      navigatorStyle: {
+        navBarHidden:true
+      }
 
-onNavigatorEvent = event => {
-    if (event.type === "NavBarButtonPress") {
-        if (event.id === "sideDrawerToggle") {
-            this.props.navigator.toggleDrawer({
-                side: "left"
-            });
-        } 
-    }  
-}
-loadFlowersList = ()=>{
-  this.props.navigator.push({
-    screen: 'Task.FlowersList', // unique ID registered with Navigation.registerScreen
-    title: "Flowers List"
-    
-})
-}
+    })
+  }
   render() {
     let imgs = []
     for (let index = 0; index < images.length; index++) {
       imgs.push(<FastImage
-      key = {index+Math.random()}
+        key={index + Math.random()}
         source={images[index]}
         style={styles.banner}
         resizeMode={'stretch'} />)
@@ -49,8 +48,8 @@ loadFlowersList = ()=>{
     let products1 = []
     for (let index = 0; index < 10; index++) {
       products1.push(<FastImage
-      key = {index+Math.random()}
-        source={images[index%images.length]}
+        key={index + Math.random()}
+        source={images[index % images.length]}
         style={styles.product}
         resizeMode={'stretch'} />)
 
@@ -58,44 +57,49 @@ loadFlowersList = ()=>{
     let products2 = []
     for (let index = 10; index > 0; index--) {
       products2.push(<FastImage
-      key = {index+Math.random()}
-        source={images[index%images.length]}
+        key={index + Math.random()}
+        source={images[index % images.length]}
         style={styles.product}
         resizeMode={'stretch'} />)
 
     }
     return (
-      <ScrollView style={{ width: "100%" }}>
-        <View style={{ height: 300 }}>
-          <Swiper
-            loop
-            autoplay
-            style={styles.wrapper}>
-            {imgs}
+      <View style={{  flex: 1 }}>
 
-          </Swiper>
-        </View>
-        <ScrollView style={{ height: 150 }} horizontal>
-          {products1}
-        </ScrollView>
-        <View style = {{margin:10, flexDirection:"row" , justifyContent:"space-between" , alignItems:"center"} }>
-          <Text>
-            Sponsored Flowers
-          </Text>
-          <Button onPress = {this.loadFlowersList} danger><Text> View All </Text></Button>
+        <CustomHeader name="md-menu" navigator={this.props.navigator} cart ={true} color ="#9F9F9F" logo = {true} title="FlowersList" transparent = {true} buttonAction = {this.toggleDrawer} />
+
+        <ScrollView style={{ width: "100%" }}>
+          <View style={{ height: 300,marginTop:10 }}>
+            <Swiper
+              loop
+              autoplay
+              style={styles.wrapper}>
+              {imgs}
+
+            </Swiper>
           </View>
-        <ScrollView style={{ height: 150 }} horizontal>
-          {products2}
-        </ScrollView>
-        <View style = {{margin:10, flexDirection:"row" , justifyContent:"space-between" , alignItems:"center"} }>
-          <Text>
-            Free Flowers
+          <ScrollView style={{ height: 150 }} horizontal>
+            {products1}
+          </ScrollView>
+          <View style={{ margin: 10, flexDirection: "row", justifyContent: "space-between", alignItems: "center" }}>
+            <Text>
+              Sponsored Flowers
           </Text>
-          <Button onPress = {this.loadFlowersList} danger><Text> View All </Text></Button>
+            <Button onPress={this.loadFlowersList} danger><Text> View All </Text></Button>
+          </View>
+          <ScrollView style={{ height: 150 }} horizontal>
+            {products2}
+          </ScrollView>
+          <View style={{ margin: 10, flexDirection: "row", justifyContent: "space-between", alignItems: "center" }}>
+            <Text>
+              Free Flowers
+          </Text>
+            <Button onPress={this.loadFlowersList} danger><Text> View All </Text></Button>
           </View>
 
-        
-      </ScrollView>
+
+        </ScrollView>
+      </View>
 
 
 
@@ -110,10 +114,10 @@ const styles = StyleSheet.create({
     width: "100%",
     height: 400
   },
-  product:{
-    width:100,
-    margin:10,
-    height:"100%"
+  product: {
+    width: 100,
+    margin: 10,
+    height: "100%"
   },
   wrapper: {
   },
