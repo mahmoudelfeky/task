@@ -84,7 +84,7 @@ class FlowersList extends Component {
   render() {
 
     return (<View style ={styles.container}>
-     <CustomHeader name="md-arrow-back" navigator={this.props.navigator} cart ={true} color ="black" logo = {true} title="FlowersList" transparent = {true} buttonAction = {this.goBack} />
+     <CustomHeader notif = {this.props.notif} name="md-arrow-back" navigator={this.props.navigator} cart ={true} color ="black" logo = {true} title="FlowersList" transparent = {true} buttonAction = {this.goBack} />
     {/* <Text>Flowers and bouquets</Text> */}
       <FlatList
         style={{ flex: 1 }}
@@ -161,7 +161,8 @@ const mapstateToProps = state => {
     page: state.flowers.page,
     seed: state.flowers.seed,
     error: state.flowers.error,
-    refreshing: state.flowers.refreshing
+    refreshing: state.flowers.refreshing,
+    notif:state.flowers.counter
   }
 }
 export default connect(mapstateToProps, mapDispatchToProps)(FlowersList);

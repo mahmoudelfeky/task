@@ -1,9 +1,10 @@
-import { GET_FLOWERS, UI_START_LOADING, UI_STOP_LOADING } from "../actions/actionTypes";
+import { GET_FLOWERS, UI_START_LOADING, UI_STOP_LOADING , ADD_TO_CART } from "../actions/actionTypes";
 initialState = {
     loading: false,
     data: [],
     error: null,
-    refreshing: false
+    refreshing: false,
+    counter:0
 };
 
 export default reducer = (state = initialState, action) => {
@@ -22,6 +23,11 @@ export default reducer = (state = initialState, action) => {
             return {
                 ...state,
                 loading: false
+            }
+            case ADD_TO_CART:
+            return {
+                ...state,
+                counter: state.counter+1
             }
         default:
             return state

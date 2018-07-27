@@ -18,7 +18,7 @@ export default class CustomHeader extends Component {
       let cart  = null;
       if(this.props.cart)
       cart = (
-        <Cart/>
+        <Cart notif ={this.props.notif}/>
       )
     return (
         <Header transparent ={this.props.transparent} style = {{width:"100%"}}>

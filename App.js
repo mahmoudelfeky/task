@@ -16,14 +16,14 @@ Navigation.registerComponent("Task.Login",()=>Login,store,Provider)
 Navigation.registerComponent("Task.SignUp",()=>SignUp,store,Provider)
 Navigation.registerComponent("Task.FlowersList",()=>FlowersList,store,Provider)
 
-Navigation.registerComponent("Task.Home",()=>Home)
+Navigation.registerComponent("Task.Home",()=>Home,store,Provider)
 Navigation.registerComponent("Task.SideDrawer",()=>SideDrawer)
-Navigation.registerComponent("Task.FlowerDetail",()=>FlowerDetail)
+Navigation.registerComponent("Task.FlowerDetail",()=>FlowerDetail,store,Provider)
 
 
 Navigation.startSingleScreenApp({
   screen: {
-    screen: 'Task.Login', // unique ID registered with Navigation.registerScreen
+    screen: 'Task.Home', // unique ID registered with Navigation.registerScreen
     // title: 'Florist', // title of the screen as appears in the nav bar (optional)
     navigatorStyle: {
       navBarHidden:true

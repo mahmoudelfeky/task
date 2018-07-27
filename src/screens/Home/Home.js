@@ -4,7 +4,8 @@ import {
   StyleSheet,
   Text,
   View,
-  ScrollView
+  ScrollView,
+  ActivityIndicator
 } from 'react-native';
 import { Button } from "native-base";
 import Swiper from 'react-native-swiper';
@@ -15,25 +16,43 @@ const images = [
   require('../../assets/SwiperImages/2.jpg'),
   require('../../assets/SwiperImages/3.jpg')
 ]
-export default class Home extends Component {
+import { connect } from "react-redux";
+import { getFlowers, handleMore } from "../../store/actions/flowersActions";
+import BASE_URL from "../../AppConfig";
+
+class Home extends Component {
   constructor(props) {
     super(props);
-  
+
   }
   toggleDrawer = () => {
     this.props.navigator.toggleDrawer({
       side: "left"
     });
   }
-  loadFlowersList = () => {
+  loadFlowersList = (gender) => {
     this.props.navigator.push({
       screen: 'Task.FlowersList', // unique ID registered with Navigation.registerScreen
       title: "Flowers List",
       navigatorStyle: {
-        navBarHidden:true
+        navBarHidden: true
       }
 
     })
+  }
+  renderImages(gender) {
+    return this.props.data.filter(flower => {
+      return flower.gender === gender
+    }).map((flower, index) => {
+      return (<FastImage
+        key={index + Math.random()}
+        source={{ uri: flower.picture.large }}
+        style={{ height: `100%`, width: 100, margin: 5 }}
+        resizeMode={'stretch'} />)
+    })
+  }
+  componentDidMount() {
+    this.props.onGetFlowers(1, this.props.data);
   }
   render() {
     let imgs = []
@@ -45,31 +64,14 @@ export default class Home extends Component {
         resizeMode={'stretch'} />)
 
     }
-    let products1 = []
-    for (let index = 0; index < 10; index++) {
-      products1.push(<FastImage
-        key={index + Math.random()}
-        source={images[index % images.length]}
-        style={styles.product}
-        resizeMode={'stretch'} />)
 
-    }
-    let products2 = []
-    for (let index = 10; index > 0; index--) {
-      products2.push(<FastImage
-        key={index + Math.random()}
-        source={images[index % images.length]}
-        style={styles.product}
-        resizeMode={'stretch'} />)
-
-    }
     return (
-      <View style={{  flex: 1 }}>
+      <View style={{ flex: 1 }}>
 
-        <CustomHeader name="md-menu" navigator={this.props.navigator} cart ={true} color ="#9F9F9F" logo = {true} title="FlowersList" transparent = {true} buttonAction = {this.toggleDrawer} />
+        <CustomHeader notif = {this.props.notif} name="md-menu" navigator={this.props.navigator} cart={true} color="#9F9F9F" logo={true} title="FlowersList" transparent={true} buttonAction={this.toggleDrawer} />
 
         <ScrollView style={{ width: "100%" }}>
-          <View style={{ height: 300,marginTop:10 }}>
+          <View style={{ height: 300, marginTop: 10 }}>
             <Swiper
               loop
               autoplay
@@ -79,22 +81,28 @@ export default class Home extends Component {
             </Swiper>
           </View>
           <ScrollView style={{ height: 150 }} horizontal>
-            {products1}
+            {
+              this.props.loading ? <ActivityIndicator size="large" /> :
+                this.renderImages(`male`)}
           </ScrollView>
           <View style={{ margin: 10, flexDirection: "row", justifyContent: "space-between", alignItems: "center" }}>
             <Text>
               Sponsored Flowers
           </Text>
-            <Button onPress={this.loadFlowersList} danger><Text> View All </Text></Button>
+            <Button style = {styles.viewAllButton} onPress={()=> this.loadFlowersList(`male`)} >
+            <Text style = {styles.viewAllText}  > View All </Text></Button>
           </View>
           <ScrollView style={{ height: 150 }} horizontal>
-            {products2}
+          {
+              this.props.loading ? <ActivityIndicator size="large" /> :
+                this.renderImages(`female`)}
           </ScrollView>
           <View style={{ margin: 10, flexDirection: "row", justifyContent: "space-between", alignItems: "center" }}>
             <Text>
               Free Flowers
           </Text>
-            <Button onPress={this.loadFlowersList} danger><Text> View All </Text></Button>
+            <Button style = {styles.viewAllButton} onPress={()=> this.loadFlowersList(`female`)} >
+            <Text style = {styles.viewAllText}  > View All </Text></Button>
           </View>
 
 
@@ -119,6 +127,19 @@ const styles = StyleSheet.create({
     margin: 10,
     height: "100%"
   },
+  viewAllButton:{
+    backgroundColor:`#ED217C`,
+    width:90,
+    justifyContent:`center`,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.8,
+    shadowRadius: 2,
+    elevation: 1,
+  },
+  viewAllText:{
+    color:`white`
+  },
   wrapper: {
   },
   text: {
@@ -127,6 +148,22 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   }
 })
+const mapDispatchToProps = dispatch => {
+  return {
+    onGetFlowers: (page, data) => dispatch(getFlowers(page, data)),
+    onhandeleMore: (data) => dispatch(handleMore(data))
+  }
+}
+const mapstateToProps = state => {
+  return {
+    loading: state.flowers.loading,
+    data: state.flowers.data,
+    page: state.flowers.page,
+    error: state.flowers.error,
+    refreshing: state.flowers.refreshing,
+    notif:state.flowers.counter
+  }
+}
+export default connect(mapstateToProps, mapDispatchToProps)(Home);
 
-
-AppRegistry.registerComponent('myproject', () => Swiper);
+// AppRegistry.registerComponent('myproject', () => Swiper);

@@ -4,6 +4,8 @@ import FastImage from 'react-native-fast-image';
 import { View } from "native-base";
 import { Container, Button, Content, Card, CardItem, Text, Body } from "native-base";
 import CustomHeader from "../../components/CustomHeader/CustomHeader";
+import { connect } from "react-redux";
+import { addToCart } from "../../store/actions/flowersActions";
 class FlowerDetail extends Component {
 
   render() {
@@ -20,7 +22,7 @@ class FlowerDetail extends Component {
       // </ScrollView>
      
       <Container style={{ backgroundColor: "#F1F3F6" }}>
- <CustomHeader title ="Flower Detail" navigator = {this.props.navigator} />
+ <CustomHeader notif = {this.props.notif} name="md-arrow-back" navigator={this.props.navigator} cart ={true} color ="black" logo = {true} title="FlowersList" transparent = {true} buttonAction = {this.goBack} />
         <Content >
           <Card style={styles.cardItem}>
             <FastImage
@@ -76,7 +78,9 @@ The standard chunk of Lorem Ipsum used since the 1500s is reproduced below for t
             </CardItem>
           </Card>
         </Content>
-        <Button style ={{backgroundColor:"#3CB324"}} block>
+        <Button
+        onPress = {()=>this.props.onAddToCart(0)}
+        style ={{backgroundColor:"#3CB324"}} block>
           <Text uppercase={false}>ADD TO CART</Text>
         </Button>
       </Container>
@@ -100,4 +104,14 @@ const styles = StyleSheet.create({
   }
 
 })
-export default FlowerDetail
+const mapDispatchToProps = dispatch=>{
+  return{
+    onAddToCart:(data)=>dispatch(addToCart(data))
+  }
+}
+const mapStateToProps = state=>{
+  return{
+    notif:state.flowers.counter
+  }
+}
+export default connect(mapStateToProps,mapDispatchToProps)( FlowerDetail)

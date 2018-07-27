@@ -1,13 +1,16 @@
-import { GET_FLOWERS } from "./actionTypes";
+import { GET_FLOWERS , ADD_TO_CART} from "./actionTypes";
 import { uiStartLoading, uiStopLoading } from "./ui";
-export const getFlowers = (seed, page, data) => {
+import BASE_URL from "../../AppConfig";
+export const getFlowers = ( page, data) => {
 
     return dispatch => {
         dispatch(
             setData({
                 loading: true
             }))
-        const url = `https://randomuser.me/api/?seed=${seed}&page=${page}&results=20`;
+            
+        // const url =BASE_URL +`/flowers?page=${page}&limit=20`;
+        const url = `https://randomuser.me/api/?&page=${page}&results=20`;
         fetch(url)
             .then(res => res.json())
             .then(res => {
@@ -42,12 +45,20 @@ export const setData = data => {
         data
     }
 }
+export const addToCart = data=>{
+    return dispatch=>{
+        dispatch({
+            type:ADD_TO_CART,
+            payload:data
+        })
+    }
+}
 export const handleMore = data => {
     return dispatch => {
         dispatch(
             setData({
                 page: data.page
             }))
-        dispatch(getData(data.seed, data.page, data.data))
+        dispatch(getData( data.page, data.data))
     }
 }
