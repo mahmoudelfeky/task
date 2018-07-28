@@ -30,9 +30,11 @@ const startTabs = () => {
                     }
                 },
                 
+                
             ],
             tabsStyle: {
                 tabBarSelectedButtonColor: "#262262"
+                
             },
             drawer: {
                 left: {
@@ -40,7 +42,8 @@ const startTabs = () => {
                 }
             },
             appStyle: {
-                tabBarSelectedButtonColor: "#B12985"
+                tabBarSelectedButtonColor: "#B12985",
+                tabBarBackgroundColor: '#262262',
             },
         });
     });

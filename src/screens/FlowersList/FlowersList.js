@@ -46,6 +46,16 @@ class FlowersList extends Component {
   }
 
   handleMore = () => {
+    if(this.props.Sponsored)
+    {
+      if(this.props.sponsoredData.length<10)
+      return
+    }
+    else
+    {
+      if(this.props.unSponsoredData.length<10)
+      return
+    }
     this.setState({
       page: this.state.page + 1
     }, () =>   this.props.onGetFlowers(this.state.page,this.props.Sponsored?

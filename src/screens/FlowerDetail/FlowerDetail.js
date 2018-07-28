@@ -9,6 +9,7 @@ import { addToCart } from "../../store/actions/flowersActions";
 class FlowerDetail extends Component {
 
   render() {
+    alert(this.props.userId)
     return (
       // <ScrollView contentContainerStyle = {{alignItems:"center",
       // flexDirection:"column"}}>
@@ -111,7 +112,8 @@ const mapDispatchToProps = dispatch=>{
 }
 const mapStateToProps = state=>{
   return{
-    notif:state.flowers.counter
+    notif:state.flowers.counter,
+    userId:state.user._id
   }
 }
 export default connect(mapStateToProps,mapDispatchToProps)( FlowerDetail)

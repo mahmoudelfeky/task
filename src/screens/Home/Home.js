@@ -27,7 +27,8 @@ class Home extends Component {
   }
   toggleDrawer = () => {
     this.props.navigator.toggleDrawer({
-      side: "left"
+      side: "left",
+      
     });
   }
   loadFlowersList = (Sponsored) => {
@@ -38,7 +39,8 @@ class Home extends Component {
         Sponsored
       },
       navigatorStyle: {
-        navBarHidden: true
+        navBarHidden: true,
+        tabBarHidden: true
       },
 
 
