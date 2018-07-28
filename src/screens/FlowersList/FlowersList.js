@@ -31,7 +31,7 @@ class FlowersList extends Component {
   }
 
   componentDidMount() {
-    this.props.onGetFlowers(this.state.page,this.props.Sponsored?
+    this.props.onGetFlowers(this.state.page,this.props.token,this.props.Sponsored?
       this.props.sponsoredData:this.props.unSponsoredData,this.props.Sponsored);
   }
 
@@ -113,6 +113,7 @@ class FlowersList extends Component {
           return (
          <TouchableOpacity onPress = {()=>this.startFlowerDetail({
            uri: imageUri,
+           flowerId:item._id,
            name:item.flowerName,
            price:item.price})}>
             <View  style = {{flexDirection:"column" ,alignItems:"center"}}>
@@ -174,7 +175,8 @@ const mapstateToProps = state => {
     page: state.flowers.page,
     error: state.flowers.error,
     refreshing: state.flowers.refreshing,
-    notif:state.flowers.counter
+    notif:state.flowers.counter,
+    token:state.user.token
   }
 }
 export default connect(mapstateToProps, mapDispatchToProps)(FlowersList);

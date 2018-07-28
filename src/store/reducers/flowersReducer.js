@@ -5,7 +5,10 @@ initialState = {
     unSponsoredData: [],
     error: null,
     refreshing: false,
-    counter:0
+    counter:0,
+    flowers:[],
+    totalPrices:0
+
 };
 
 export default reducer = (state = initialState, action) => {
@@ -33,7 +36,9 @@ export default reducer = (state = initialState, action) => {
             case ADD_TO_CART:
             return {
                 ...state,
-                counter: state.counter+1
+                counter: state.counter+1,
+                flowers:action.payload.flowers,
+                totalPrices:action.payload.totalPrices
             }
         default:
             return state

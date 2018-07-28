@@ -9,19 +9,7 @@ import { addToCart } from "../../store/actions/flowersActions";
 class FlowerDetail extends Component {
 
   render() {
-    alert(this.props.userId)
     return (
-      // <ScrollView contentContainerStyle = {{alignItems:"center",
-      // flexDirection:"column"}}>
-      //     <FastImage
-      //     style = {styles.image}
-      //     source = {{uri:this.props.values.uri}}
-      //     />
-      //     <Text style = {styles.text}>{this.props.values.name}</Text>
-
-
-      // </ScrollView>
-     
       <Container style={{ backgroundColor: "#F1F3F6" }}>
  <CustomHeader notif = {this.props.notif} name="md-arrow-back" navigator={this.props.navigator} cart ={true} color ="black" logo = {true} title="FlowersList" transparent = {true} buttonAction = {this.goBack} />
         <Content >
@@ -80,7 +68,11 @@ The standard chunk of Lorem Ipsum used since the 1500s is reproduced below for t
           </Card>
         </Content>
         <Button
-        onPress = {()=>this.props.onAddToCart(0)}
+        onPress = {()=>this.props.onAddToCart({
+          userId:this.props.userId,
+          flowerId:this.props.values.flowerId,
+          token:this.props.token
+        })}
         style ={{backgroundColor:"#3CB324"}} block>
           <Text uppercase={false}>ADD TO CART</Text>
         </Button>
@@ -113,7 +105,8 @@ const mapDispatchToProps = dispatch=>{
 const mapStateToProps = state=>{
   return{
     notif:state.flowers.counter,
-    userId:state.user._id
+    userId:state.user._id,
+    token:state.user.token
   }
 }
 export default connect(mapStateToProps,mapDispatchToProps)( FlowerDetail)

@@ -64,8 +64,8 @@ class Home extends Component {
 
   }
   componentDidMount() {
-    this.props.onGetFlowers(1, this.props.sponsoredData, true);
-    this.props.onGetFlowers(1, this.props.unSponsoredData, false);
+    this.props.onGetFlowers(1,this.props.token, this.props.sponsoredData, true);
+    this.props.onGetFlowers(1,this.props.token,this.props.unSponsoredData, false);
   }
   render() {
     let imgs = []
@@ -175,7 +175,8 @@ const mapstateToProps = state => {
     page: state.flowers.page,
     error: state.flowers.error,
     refreshing: state.flowers.refreshing,
-    notif: state.flowers.counter
+    notif: state.flowers.counter,
+    token:state.user.token
   }
 }
 export default connect(mapstateToProps, mapDispatchToProps)(Home);

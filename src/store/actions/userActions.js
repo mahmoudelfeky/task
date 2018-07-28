@@ -25,8 +25,13 @@ export const signIn = (values, bag) => {
             let responseJson = await response.json();
             bag.setSubmitting(false);
             if (responseJson.user) {
-                
-                dispatch(saveUser(responseJson.user))
+               
+                dispatch({
+                    type: SAVE_USER,
+                    payload: {
+                        token:responseJson.token,
+                        user:responseJson.user
+                    }})
                 StartHome();
             }
             else {
@@ -104,9 +109,3 @@ export const signUp = (values, bag, image) => {
     }
 }
 
-const saveUser = data => {
-    return {
-        type: SAVE_USER,
-        payload: data
-    }
-}

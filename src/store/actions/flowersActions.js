@@ -1,8 +1,7 @@
 import { GET_FLOWERS , ADD_TO_CART} from "./actionTypes";
 import { uiStartLoading, uiStopLoading } from "./ui";
 import BASE_URL from "../../AppConfig";
-export const getFlowers = ( page, data,sponsored) => {
-
+export const getFlowers = ( page,token, data,sponsored) => {
     return dispatch => {
         dispatch(
             setData({
@@ -11,7 +10,12 @@ export const getFlowers = ( page, data,sponsored) => {
             
         // const url =BASE_URL +`/flowers?page=${page}&limit=20`;
         const url = BASE_URL+`/flowers?page=${page}&limit=10&sponsored=${sponsored}`
-        fetch(url)
+        fetch(url, {
+            method: "GET",
+            headers: {
+              'Authorization': 'Bearer ' + token
+            }
+          })
             .then(res => res.json())
             .then(res => {
                 setTimeout(() => {
@@ -45,14 +49,49 @@ export const setData = data => {
         data
     }
 }
-export const addToCart = data=>{
-    return dispatch=>{
-        dispatch({
-            type:ADD_TO_CART,
-            payload:data
-        })
+export const addToCart = data => {
+    const url = BASE_URL + `/user/${data.userId}/cart`
+        var data = {
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer ' + data.token
+            },
+            body: JSON.stringify({
+                'flower': data.flowerId
+            })
+        };
+    return async dispatch => {
+       
+
+
+        try {
+
+            let response = await fetch(url, data)
+            let responseJson = await response.json();
+            if (responseJson.flowers) {
+                
+                dispatch({
+                    type:ADD_TO_CART,
+                    payload:{
+                        flowers:responseJson.flowers,
+                        totalPrice:responseJson.totalPrice
+                    }
+                })
+               
+            }
+            else {
+                console.log(response)
+            }
+
+        }
+        catch (error) {
+           console.log(error)
+        }
     }
 }
+
 export const handleMore = data => {
     return dispatch => {
         dispatch(

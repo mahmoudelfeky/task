@@ -9,16 +9,18 @@ import configureStore from './src/store/configureStore';
 import StartHome from "./src/screens/StartHome/StartHome";
 import FlowerDetail from "./src/screens/FlowerDetail/FlowerDetail";
 import FlowersList from "./src/screens/FlowersList/FlowersList";
+import Orders from "./src/screens/Orders/Orders";
 const store = configureStore();
 
 
 Navigation.registerComponent("Task.Login",()=>Login,store,Provider)
 Navigation.registerComponent("Task.SignUp",()=>SignUp,store,Provider)
 Navigation.registerComponent("Task.FlowersList",()=>FlowersList,store,Provider)
-
 Navigation.registerComponent("Task.Home",()=>Home,store,Provider)
 Navigation.registerComponent("Task.SideDrawer",()=>SideDrawer)
 Navigation.registerComponent("Task.FlowerDetail",()=>FlowerDetail,store,Provider)
+
+Navigation.registerComponent("Task.Orders",()=>Orders)
 
 
 Navigation.startSingleScreenApp({
