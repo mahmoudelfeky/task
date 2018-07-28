@@ -5,7 +5,7 @@ import { getFlowers, handleMore } from "../../store/actions/flowersActions";
 import { ListItem, Left, Body, Right, Thumbnail, Text, SearchBar } from 'native-base';
 import { Header } from "native-base";
 import CustomHeader from "../../components/CustomHeader/CustomHeader";
-
+import BASE_URL from "../../AppConfig";
 import FastImage from 'react-native-fast-image'
 const { width, height } = Dimensions.get('window');
 
@@ -14,7 +14,6 @@ const equalWidth = (width / 2 )
 class FlowersList extends Component {
   state = {
     page: 1,
-    seed: 1,
     refreshing: false
   }
 
@@ -32,23 +31,25 @@ class FlowersList extends Component {
   }
 
   componentDidMount() {
-    this.props.onGetFlowers(this.state.seed, this.state.page, this.props.data);
+    this.props.onGetFlowers(this.state.page,this.props.Sponsored?
+      this.props.sponsoredData:this.props.unSponsoredData,this.props.Sponsored);
   }
 
 
   handleRefresh = () => {
     this.setState({
       page: 1,
-      refreshing: true,
-      seed: this.state.seed + 1
-    }, () => this.props.onGetFlowers(this.state.seed, this.state.page, this.props.data))
+      refreshing: true
+    }, () =>   this.props.onGetFlowers(this.state.page,this.props.Sponsored?
+      this.props.sponsoredData:this.props.unSponsoredData,this.props.Sponsored))
 
   }
 
   handleMore = () => {
     this.setState({
       page: this.state.page + 1
-    }, () => this.props.onGetFlowers(this.state.seed, this.state.page, this.props.data))
+    }, () =>   this.props.onGetFlowers(this.state.page,this.props.Sponsored?
+      this.props.sponsoredData:this.props.unSponsoredData,this.props.Sponsored))
   }
 
 
@@ -89,8 +90,8 @@ class FlowersList extends Component {
       <FlatList
         style={{ flex: 1 }}
         ItemSeparatorComponent={this.renderSeparator}
-        data={this.props.data}
-        keyExtractor={item => item.email}
+        data={this.props.Sponsored?this.props.sponsoredData:this.props.unSponsoredData}
+        keyExtractor={item => item.flowerImage}
         numColumns={2}
         ListFooterComponent={this.renderFooter}
         refreshing={this.props.refreshing}
@@ -98,18 +99,19 @@ class FlowersList extends Component {
         onEndReached={this.handleMore}
         onEndReachedThreshold={.5}
         renderItem={({ item }) => {
+          let imageUri =  BASE_URL+`/`+  item.flowerImage;
           return (
          <TouchableOpacity onPress = {()=>this.startFlowerDetail({
-           uri: item.picture.large,
-           name:item.name.first,
-           price:item.name.last})}>
+           uri: imageUri,
+           name:item.flowerName,
+           price:item.price})}>
             <View  style = {{flexDirection:"column" ,alignItems:"center"}}>
               <FastImage
               style = {styles.image}
-                source={{ uri: item.picture.large }}
+                source={{ uri:imageUri }}
                 resizeMode={'cover'} />
-                <Text>name</Text>
-                <Text>price</Text>
+                <Text>{item.flowerName}</Text>
+                <Text>{item.price}</Text>
 
             </View>
             </TouchableOpacity>
@@ -150,16 +152,16 @@ const styles = StyleSheet.create({
 })
 const mapDispatchToProps = dispatch => {
   return {
-    onGetFlowers: (seed, page, data) => dispatch(getFlowers(seed, page, data)),
+    onGetFlowers: (page, data,Sponsored) => dispatch(getFlowers(page, data,Sponsored)),
     onhandeleMore: (data) => dispatch(handleMore(data))
   }
 }
 const mapstateToProps = state => {
   return {
     loading: state.flowers.loading,
-    data: state.flowers.data,
+    sponsoredData: state.flowers.sponsoredData,
+    unSponsoredData: state.flowers.unSponsoredData,
     page: state.flowers.page,
-    seed: state.flowers.seed,
     error: state.flowers.error,
     refreshing: state.flowers.refreshing,
     notif:state.flowers.counter
