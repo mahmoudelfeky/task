@@ -3,12 +3,13 @@ import { uiStartLoading, uiStopLoading } from "./ui";
 import BASE_URL from "../../AppConfig";
 export const getFlowers = ( page,token, data,sponsored) => {
     return dispatch => {
+        console.log("asjashjas"+ sponsored)
         dispatch(
             setData({
-                loading: true
+                loading: true,
+                sponsored
             }))
             
-        // const url =BASE_URL +`/flowers?page=${page}&limit=20`;
         const url = BASE_URL+`/flowers?page=${page}&limit=10&sponsored=${sponsored}`
         fetch(url, {
             method: "GET",
@@ -19,25 +20,29 @@ export const getFlowers = ( page,token, data,sponsored) => {
             .then(res => res.json())
             .then(res => {
                 setTimeout(() => {
-                   
+                //    console.log(res)
                     dispatch(
                         setData({
-                            data: page === 1 ? res.flowers : [...data, res.flowers],
+                            data: page === 1 ? res.flowers : [...data, ...res.flowers],
                             error: res.error || null,
                             loading: false,
                             refreshing: false,
-                            sponsored
+                            sponsored,
+                            pageCount:res.pageCount
                         })
                     );
                 }, 2000)
             })
             .catch(error => {
+                console.log(error)
                 dispatch(
                     setData({
-                        loading: true
+                        loading: false,
+                        sponsored
                     }))
                 dispatch(setData({
-                    refreshing: false
+                    refreshing: false,
+                    sponsored
                 }))
             });
     }
@@ -49,21 +54,22 @@ export const setData = data => {
         data
     }
 }
-export const addToCart = data => {
-    const url = BASE_URL + `/user/${data.userId}/cart`
+export const addToCart = values => {
+    console.log(values.userId)
+    const url = BASE_URL + `/user/${values.userId}/cart`
         var data = {
             method: 'POST',
             headers: {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json',
-                'Authorization': 'Bearer ' + data.token
+                'Authorization': 'Bearer ' + values.token
             },
             body: JSON.stringify({
-                'flower': data.flowerId
+                'flower': values.flowerId
             })
         };
     return async dispatch => {
-       
+       console.log(data)
 
 
         try {
@@ -71,7 +77,7 @@ export const addToCart = data => {
             let response = await fetch(url, data)
             let responseJson = await response.json();
             if (responseJson.flowers) {
-                
+                // console.log(response.flowers)
                 dispatch({
                     type:ADD_TO_CART,
                     payload:{

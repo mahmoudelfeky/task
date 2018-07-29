@@ -105,7 +105,7 @@ const mapDispatchToProps = dispatch=>{
 const mapStateToProps = state=>{
   return{
     notif:state.flowers.counter,
-    userId:state.user._id,
+    userId:state.user.user._id,
     token:state.user.token
   }
 }

@@ -32,7 +32,7 @@ class Home extends Component {
     });
   }
   loadFlowersList = (Sponsored) => {
-    this.props.navigator.push({
+    this.props.navigator.resetTo({
       screen: 'Task.FlowersList', // unique ID registered with Navigation.registerScreen
       title: "Flowers List",
       passProps: {
@@ -48,7 +48,7 @@ class Home extends Component {
   }
   renderImages(Sponsored) {
 
-    let data = Sponsored ? this.props.sponsoredData : this.props.unSponsoredData;
+    let data = Sponsored ? this.props.sponsoredData.data : this.props.unSponsoredData.data;
     if (data === undefined)
       return
     return data.map((flower, index) => {
@@ -64,8 +64,8 @@ class Home extends Component {
 
   }
   componentDidMount() {
-    this.props.onGetFlowers(1,this.props.token, this.props.sponsoredData, true);
-    this.props.onGetFlowers(1,this.props.token,this.props.unSponsoredData, false);
+    this.props.onGetFlowers(1,this.props.token, this.props.sponsoredData.data, true);
+    this.props.onGetFlowers(1,this.props.token,this.props.unSponsoredData.data, false);
   }
   render() {
     let imgs = []
@@ -78,6 +78,7 @@ class Home extends Component {
 
     }
 
+    console.log(this.props.sponsoredData.loading,this.props.unSponsoredData.loading)
     return (
       <View style={{ flex: 1 }}>
 
@@ -95,7 +96,7 @@ class Home extends Component {
           </View>
           <ScrollView style={{ height: 200 }} horizontal>
             {
-              this.props.loading ? <ActivityIndicator size="large" /> :
+              (this.props.sponsoredData.loading) ? <ActivityIndicator size="large" /> :
                 this.renderImages(true)}
           </ScrollView>
           <View style={{ margin: 10, flexDirection: "row", justifyContent: "space-between", alignItems: "center" }}>
@@ -107,7 +108,7 @@ class Home extends Component {
           </View>
           <ScrollView style={{ height: 200 }} horizontal>
             {
-              this.props.loading ? <ActivityIndicator size="large" /> :
+              (this.props.unSponsoredData.loading) ? <ActivityIndicator size="large" /> :
                 this.renderImages(false)}
           </ScrollView>
           <View style={{ margin: 10, flexDirection: "row", justifyContent: "space-between", alignItems: "center" }}>
@@ -163,18 +164,14 @@ const styles = StyleSheet.create({
 })
 const mapDispatchToProps = dispatch => {
   return {
-    onGetFlowers: (page, data, Sponsored) => dispatch(getFlowers(page, data, Sponsored)),
+    onGetFlowers: (page ,token, data, Sponsored) => dispatch(getFlowers(page, token , data, Sponsored)),
     onhandeleMore: (data) => dispatch(handleMore(data))
   }
 }
 const mapstateToProps = state => {
   return {
-    loading: state.flowers.loading,
-    sponsoredData: state.flowers.sponsoredData,
-    unSponsoredData: state.flowers.unSponsoredData,
-    page: state.flowers.page,
-    error: state.flowers.error,
-    refreshing: state.flowers.refreshing,
+    sponsoredData: state.flowers.sponsored,
+    unSponsoredData: state.flowers.unSponsored,
     notif: state.flowers.counter,
     token:state.user.token
   }
