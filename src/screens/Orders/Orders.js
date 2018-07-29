@@ -1,49 +1,66 @@
 import React , { Component } from "react";
 import CustomHeader from "../../components/CustomHeader/CustomHeader";
-import { Container, Content, Card, Text , View, Icon } from 'native-base';
-import {  TouchableOpacity } from "react-native";
-import FastImage from "react-native-fast-image";
+import { Container, Content , Button , Text } from 'native-base';
+import CartItem from "../../components/CartItem/CartItem";
+import BASE_URL from "../../AppConfig";
+import { connect } from "react-redux";
+import { getCart  , checkOut} from "../../store/actions/flowersActions";
 class Orders extends Component {
+    state = {
+        flowers:[],
+        totalPrice:0
+    }
+    componentDidMount(){
+        this.props.onGetCart({
+            userId:this.props.userId,
+            token:this.props.token
+          })
+    }
+ 
     goBack = ()=>{
         this.props.navigator.pop({
             animated: true, // does the pop have transition animation or does it happen immediately (optional)
             animationType: 'fade', // 'fade' (for both) / 'slide-horizontal' (for android) does the pop have different transition animation (optional)
         });
     }
+
+    renderOrders = ()=>{
+       return  this.props.flowers.map(item=>{
+           return <CartItem name ={item.flowerName} price = {item.price} 
+           uri = {BASE_URL+`/`+item.flowerImage} desc = {item.description} key = {item._id+item.creationDate+Math.random()}/>
+       })
+    }
     render(){
         return(
         <Container>
          <CustomHeader  name="md-arrow-back" navigator={this.props.navigator}  color ="black" logo = {true} title="FlowersList" transparent = {true} buttonAction = {this.goBack} />
         <Content>
-          <Card>
-             <View style = {{flexDirection:"row",flex:1 ,alignItems:"center",margin:5}}>
-                      <FastImage
-                      source = {require("../../assets/SwiperImages/1.jpg")}
-                      style = {{width:150,height:150}}
-                      resizeMode = "cover"
-                      />
-           <View style = {{flexDirection:"column",flex:1,marginLeft:20}} >
-           <View style = {{flexDirection:"row"}} >
-                <Text style = {{marginRight:50}} >
-                   //Your text here
-                </Text>
-                <TouchableOpacity>
-                <Icon name = "md-trash"/>
-                </TouchableOpacity>
-                </View>
-                <Text>Description </Text>
-                <View style = {{flexDirection:"row",justifyContent:"space-between"}} >
-                    <Text>price</Text>
-                    <Text>21995</Text>
-                </View>
-                </View>
-            </View>
-          </Card>
+         {this.renderOrders()}
         </Content>
+        <Button onPress = {()=>this.props.onCheckOut({
+            userId:this.props.userId,
+            token:this.props.token
+        })}
+        style ={{backgroundColor:"#3CB324"}} block>
+          <Text uppercase={false}>PLACE ORDER</Text>
+        </Button>
       </Container>);
        
 
     }
 }
-
-export default Orders
+const mapDispatchToProps = dispatch=>{
+    return{
+        onGetCart:(values)=>dispatch(getCart(values)),
+        onCheckOut:(values)=>dispatch(checkOut(values))
+    }
+}
+const mapStateToProps = state=>{
+    return{
+        userId:state.user.user._id,
+        token:state.user.token,
+        flowers:state.flowers.flowers,
+        totalPrice:state.flowers.totalPrice
+    }
+}
+export default connect(mapStateToProps,mapDispatchToProps)( Orders)

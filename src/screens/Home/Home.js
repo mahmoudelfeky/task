@@ -17,7 +17,7 @@ const images = [
   require('../../assets/SwiperImages/3.jpg')
 ]
 import { connect } from "react-redux";
-import { getFlowers, handleMore } from "../../store/actions/flowersActions";
+import { getFlowers, handleMore , getCart  } from "../../store/actions/flowersActions";
 import BASE_URL from "../../AppConfig";
 
 class Home extends Component {
@@ -64,6 +64,10 @@ class Home extends Component {
 
   }
   componentDidMount() {
+    this.props.onGetCart({
+      userId:this.props.userId,
+      token:this.props.token
+    })
     this.props.onGetFlowers(1,this.props.token, this.props.sponsoredData.data, true);
     this.props.onGetFlowers(1,this.props.token,this.props.unSponsoredData.data, false);
   }
@@ -165,7 +169,8 @@ const styles = StyleSheet.create({
 const mapDispatchToProps = dispatch => {
   return {
     onGetFlowers: (page ,token, data, Sponsored) => dispatch(getFlowers(page, token , data, Sponsored)),
-    onhandeleMore: (data) => dispatch(handleMore(data))
+    onhandeleMore: (data) => dispatch(handleMore(data)),
+    onGetCart:(data)=>dispatch(getCart(data))
   }
 }
 const mapstateToProps = state => {
@@ -173,7 +178,8 @@ const mapstateToProps = state => {
     sponsoredData: state.flowers.sponsored,
     unSponsoredData: state.flowers.unSponsored,
     notif: state.flowers.counter,
-    token:state.user.token
+    token:state.user.token,
+    userId:state.user.user._id,
   }
 }
 export default connect(mapstateToProps, mapDispatchToProps)(Home);

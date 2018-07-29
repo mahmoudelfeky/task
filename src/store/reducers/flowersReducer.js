@@ -1,4 +1,4 @@
-import { GET_FLOWERS, UI_START_LOADING, UI_STOP_LOADING , ADD_TO_CART } from "../actions/actionTypes";
+import { GET_FLOWERS, UI_START_LOADING, UI_STOP_LOADING , ADD_TO_CART , GET_CART , CHECKOUT } from "../actions/actionTypes";
 initialState = {
     sponsored:{
         data:[],
@@ -55,8 +55,22 @@ export default reducer = (state = initialState, action) => {
             return {
                 ...state,
                 counter: state.counter+1,
+                // flowers:action.payload.flowers,
+                // totalPrices:action.payload.totalPrices
+            }
+            case GET_CART:
+            return{
+                ...state,
                 flowers:action.payload.flowers,
-                totalPrices:action.payload.totalPrices
+                totalPrices:action.payload.totalPrices,
+                counter:action.payload.flowers.length
+            }
+            case CHECKOUT:
+            return{
+                ...state,
+                flowers:[],
+                totalPrices:0,
+                counter:0
             }
         default:
             return state

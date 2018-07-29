@@ -20,7 +20,7 @@ Navigation.registerComponent("Task.Home",()=>Home,store,Provider)
 Navigation.registerComponent("Task.SideDrawer",()=>SideDrawer)
 Navigation.registerComponent("Task.FlowerDetail",()=>FlowerDetail,store,Provider)
 
-Navigation.registerComponent("Task.Orders",()=>Orders)
+Navigation.registerComponent("Task.Orders",()=>Orders,store,Provider)
 
 
 Navigation.startSingleScreenApp({

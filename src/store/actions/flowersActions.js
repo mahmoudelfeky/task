@@ -1,4 +1,4 @@
-import { GET_FLOWERS , ADD_TO_CART} from "./actionTypes";
+import { GET_FLOWERS , ADD_TO_CART,GET_CART , CHECKOUT} from "./actionTypes";
 import { uiStartLoading, uiStopLoading } from "./ui";
 import BASE_URL from "../../AppConfig";
 export const getFlowers = ( page,token, data,sponsored) => {
@@ -54,8 +54,78 @@ export const setData = data => {
         data
     }
 }
+export const checkOut = (values)=>{
+    const url = BASE_URL + `/user/${values.userId}/checkout`
+    var data = {
+        method: 'POST',
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + values.token
+        }
+    }
+    return async dispatch => {
+        try {
+  
+              let response = await fetch(url, data)
+              let responseJson = await response.json();
+              
+                  console.log(response)
+              if (responseJson.flowers) {
+                  // console.log(response.flowers)
+                  
+                  dispatch({
+                      type:CHECKOUT
+                  })
+                 
+              }
+              else {
+                  console.log(response)
+              }
+  
+          }
+          catch (error) {
+             console.log(error)
+          }
+      }
+}
+export const getCart = (values)=>{
+    const url = BASE_URL + `/user/${values.userId}/cart`
+        var data = {
+            method: 'GET',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer ' + values.token
+            }
+        };
+    return async dispatch => {
+      try {
+
+            let response = await fetch(url, data)
+            let responseJson = await response.json();
+            if (responseJson.cart) {
+                // console.log(response.flowers)
+                dispatch({
+                    type:GET_CART,
+                    payload:{
+                        flowers:responseJson.cart.flowers,
+                        totalPrice:responseJson.cart.totalPrice
+                    }
+                })
+               
+            }
+            else {
+                console.log(response)
+            }
+
+        }
+        catch (error) {
+           console.log(error)
+        }
+    }
+}
 export const addToCart = values => {
-    console.log(values.userId)
     const url = BASE_URL + `/user/${values.userId}/cart`
         var data = {
             method: 'POST',
@@ -69,9 +139,6 @@ export const addToCart = values => {
             })
         };
     return async dispatch => {
-       console.log(data)
-
-
         try {
 
             let response = await fetch(url, data)
