@@ -9,6 +9,7 @@ import * as yup from "yup";
 import { connect } from "react-redux";
 
 import { signIn } from "../../store/actions/userActions";
+import LoadingOverlay from "../../components/LoadingOverlay/LoadingOverlay";
 
 
 bg = require("../../assets/1.jpg");
@@ -74,7 +75,7 @@ bg = require("../../assets/1.jpg");
                 error = {touched.password&& errors.password}
                 onTouch = {setFieldTouched}
                 />
-                {isSubmitting ? <ActivityIndicator size="large" style={{ marginTop: 80 }} /> :(
+                {isSubmitting ? <LoadingOverlay/> :(
               <Button
               onPress={handleSubmit}
               block style={styles.loginButton}>

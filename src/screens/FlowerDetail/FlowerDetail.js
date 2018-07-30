@@ -33,9 +33,7 @@ goBack = () => {
               style={styles.image}
               source={{ uri: this.props.values.uri }}
             >
-            <TouchableOpacity onPress = {()=>this.addToFavourite()} >
-            <Icon name = "md-star" style = {{fontSize:100 , color:this.state.favourite?"yellow":"black"}}/>
-            </TouchableOpacity>
+           
             </FastImage>
             <CardItem >
               <Body style={styles.cardItem}  >

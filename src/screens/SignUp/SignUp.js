@@ -4,6 +4,7 @@ import { View, ImageBackground, StyleSheet, TouchableOpacity, Image, ActivityInd
 import ImagePicker from "react-native-image-picker";
 import { connect } from "react-redux";
 import { signUp } from "../../store/actions/userActions";
+import LoadingOverlay from "../../components/LoadingOverlay/LoadingOverlay";
 
 import CustomHeader from "../../components/CustomHeader/CustomHeader";
 import FormInput from "../../components/FromInput/FormInput";
@@ -123,7 +124,7 @@ profileImage = require("../../assets/profile.png");
                                         error={touched.password && errors.password}
                                         onTouch={setFieldTouched}
                                     />
-                                    {isSubmitting ? <ActivityIndicator size = "large" style={{ marginTop: 80 }} /> : (<Button
+                                    {isSubmitting ? <LoadingOverlay /> : (<Button
 
                                         onPress={handleSubmit}
                                         block style={styles.loginButton}>

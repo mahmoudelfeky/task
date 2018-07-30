@@ -3,11 +3,12 @@ import { View, FlatList, ActivityIndicator, StyleSheet, TouchableOpacity, Dimens
 import { connect } from "react-redux";
 import { getFlowers, handleMore } from "../../store/actions/flowersActions";
 import { ListItem, Left, Body, Right, Thumbnail, Text, SearchBar } from 'native-base';
-import { Header } from "native-base";
+import { Header  , Icon} from "native-base";
 import CustomHeader from "../../components/CustomHeader/CustomHeader";
 import BASE_URL from "../../AppConfig";
 import FastImage from 'react-native-fast-image'
 const { width, height } = Dimensions.get('window');
+import FavouriteIcon from "../../components/FavouriteIcon/FavouriteIcon";
 
 const equalWidth = (width / 2)
 
@@ -164,7 +165,7 @@ class FlowersList extends Component {
                     style={styles.image}
                     source={{ uri: imageUri }}
                     resizeMode={'cover'}>
-                    <Icon name="md-star" style={{ fontSize: 100, color: this.state.favourite ? "yellow" : "black" }} />
+                  <FavouriteIcon fav = {item.sponsored} userId = {this.props.userId} token = {this.props.token} flowerId = {item._id} />
                   </FastImage>
                   <Text>{item.flowerName}</Text>
                   <Text>{item.price}</Text>
@@ -218,7 +219,8 @@ const mapstateToProps = state => {
     sponsoredData: state.flowers.sponsored,
     unSponsoredData: state.flowers.unSponsored,
     notif: state.flowers.counter,
-    token: state.user.token
+    token: state.user.token,
+    userId: state.user.user._id
   }
 }
 export default connect(mapstateToProps, mapDispatchToProps)(FlowersList);
