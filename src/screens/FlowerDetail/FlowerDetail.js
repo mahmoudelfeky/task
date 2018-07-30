@@ -1,13 +1,28 @@
 import React, { Component } from "react";
-import { ScrollView, StyleSheet } from "react-native";
+import { ScrollView, StyleSheet ,TouchableOpacity } from "react-native";
 import FastImage from 'react-native-fast-image';
-import { View } from "native-base";
+import { View, Icon } from "native-base";
 import { Container, Button, Content, Card, CardItem, Text, Body } from "native-base";
 import CustomHeader from "../../components/CustomHeader/CustomHeader";
 import { connect } from "react-redux";
 import { addToCart } from "../../store/actions/flowersActions";
 class FlowerDetail extends Component {
-
+state = {
+  favourite:false
+}
+addToFavourite = ()=>{
+this.setState(prevState=>{
+  return {
+    favourite:!prevState.favourite
+  }
+})
+}
+goBack = () => {
+  this.props.navigator.pop({
+    animated: true, // does the pop have transition animation or does it happen immediately (optional)
+    animationType: 'fade', // 'fade' (for both) / 'slide-horizontal' (for android) does the pop have different transition animation (optional)
+  });
+}
   render() {
     return (
       <Container style={{ backgroundColor: "#F1F3F6" }}>
@@ -17,7 +32,11 @@ class FlowerDetail extends Component {
             <FastImage
               style={styles.image}
               source={{ uri: this.props.values.uri }}
-            />
+            >
+            <TouchableOpacity onPress = {()=>this.addToFavourite()} >
+            <Icon name = "md-star" style = {{fontSize:100 , color:this.state.favourite?"yellow":"black"}}/>
+            </TouchableOpacity>
+            </FastImage>
             <CardItem >
               <Body style={styles.cardItem}  >
                 <Text>

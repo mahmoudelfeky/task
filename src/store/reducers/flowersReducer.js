@@ -1,4 +1,4 @@
-import { GET_FLOWERS, UI_START_LOADING, UI_STOP_LOADING , ADD_TO_CART , GET_CART , CHECKOUT } from "../actions/actionTypes";
+import { GET_FLOWERS, UI_START_LOADING, UI_STOP_LOADING , ADD_TO_CART , GET_CART ,ADD_TO_FAV , CHECKOUT } from "../actions/actionTypes";
 initialState = {
     sponsored:{
         data:[],
@@ -72,6 +72,8 @@ export default reducer = (state = initialState, action) => {
                 totalPrice:0,
                 counter:0
             }
+            case  ADD_TO_FAV:
+            return;
         default:
             return state
     }

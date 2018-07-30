@@ -13,6 +13,14 @@ import { signIn } from "../../store/actions/userActions";
 
 bg = require("../../assets/1.jpg");
  class LogIn extends Component {
+   constructor(props)  {
+     super(props);
+     this.props.navigator.setDrawerEnabled({
+      side: "left",
+      enabled: false,
+      screen: "Task.SideDrawer"
+    });
+   }
   signUp = () => {
     this.props.navigator.push({
       screen: 'Task.SignUp', // unique ID registered with Navigation.registerScreen

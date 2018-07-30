@@ -87,7 +87,12 @@ export const signUp = (values, bag, image) => {
 
 
 
-                dispatch(saveUser(responseJson.user))
+                dispatch( dispatch({
+                    type: SAVE_USER,
+                    payload: {
+                        token:responseJson.token,
+                        user:responseJson.user
+                    }}))
                 StartHome();
             }
             else {

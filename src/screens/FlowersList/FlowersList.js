@@ -16,7 +16,7 @@ class FlowersList extends Component {
     page: 1,
     refreshing: false
   }
-  constructor(props){
+  constructor(props) {
     super(props)
     this.props.navigator.setDrawerEnabled({
       side: "left",
@@ -39,7 +39,7 @@ class FlowersList extends Component {
   }
 
   componentDidMount() {
-    console.log(this.props.Sponsored ,this.props.sponsoredData , this.props.unSponsoredData)
+    console.log(this.props.Sponsored, this.props.sponsoredData, this.props.unSponsoredData)
     // this.props.onGetFlowers(this.state.page, this.props.token, this.props.Sponsored ?
     //   this.props.sponsoredData : this.props.unSponsoredData, this.props.Sponsored);
   }
@@ -55,17 +55,17 @@ class FlowersList extends Component {
   }
 
   handleMore = () => {
-    
+
     // console.log(this.props.Sponsored,this.props.sponsoredData.loading,this.props.unSponsoredData.loading,this.props.sponsoredData.pageCount , this.state.page)
     flag = false
     if (this.props.Sponsored) {
-      if (this.props.sponsoredData.pageCount <= this.state.page){
+      if (this.props.sponsoredData.pageCount <= this.state.page) {
         flag = true;
         return;
       }
     }
     else {
-      if (this.props.unSponsoredData.pageCount <= this.state.page){
+      if (this.props.unSponsoredData.pageCount <= this.state.page) {
         flag = true
         return;
       }
@@ -87,32 +87,32 @@ class FlowersList extends Component {
   }
   renderFooter = () => {
     // alert(this.props.loading)
-   console.log("###########", this.props.sponsoredData.loading);
-   console.log("$$$$$$$$$$$$$$, ", this.props.unSponsoredData.loading);
-   
+    console.log("###########", this.props.sponsoredData.loading);
+    console.log("$$$$$$$$$$$$$$, ", this.props.unSponsoredData.loading);
+
     flag = false
-    if (this.props.Sponsored){
-    
-      if (!this.props.sponsoredData.loading){
+    if (this.props.Sponsored) {
+
+      if (!this.props.sponsoredData.loading) {
         flag = true;
         console.log("@@@@@@@555555555555555@");
-        
+
         return null;
       }
     }
-      else {
-        
-        if (!this.props.unSponsoredData.loading){
-          console.log("gggggggggggggg");
-          
-          flag = true;
-          return null;
-        }
-      }
+    else {
 
-      console.log("render footer "+ "%%%%%")
+      if (!this.props.unSponsoredData.loading) {
+        console.log("gggggggggggggg");
+
+        flag = true;
+        return null;
+      }
+    }
+
+    console.log("render footer " + "%%%%%")
     return (
-      
+
       <View
         style={{
           paddingVertical: 20,
@@ -135,44 +135,46 @@ class FlowersList extends Component {
     // alert(this.props.sponsored?this.props.sponsored.pageCount:this.props.unSponsoredData.pageCount)
     // console.log(this.props.Sponsored,this.props.sponsoredData,this.props.unSponsoredData)
     return (
-    <View style={styles.container}>
-      <CustomHeader notif={this.props.notif} name="md-arrow-back" navigator={this.props.navigator} cart={true} color="black" logo={true} title="FlowersList" transparent={true} buttonAction={this.goBack} />
-     
-      {/* <Text>Flowers and bouquets</Text> */}
-      <FlatList
-        style={{ flex: 1 }}
-        ItemSeparatorComponent={this.renderSeparator}
-        data={this.props.Sponsored ? this.props.sponsoredData.data : this.props.unSponsoredData.data}
-        keyExtractor={item => item.flowerImage + Math.random()}
-        numColumns={2}
-        ListFooterComponent={this.renderFooter}
-        refreshing={this.props.Sponsored ? this.props.sponsoredData.refreshing : this.props.unSponsoredData.refreshing}
-        onRefresh={this.handleRefresh}
-        onEndReached={this.handleMore}
-        onEndReachedThreshold={.5}
-        renderItem={({ item }) => {
-          let imageUri = BASE_URL + `/` + item.flowerImage;
-          return (
-            <TouchableOpacity onPress={() => this.startFlowerDetail({
-              uri: imageUri,
-              flowerId: item._id,
-              name: item.flowerName,
-              price: item.price
-            })}>
-              <View style={{ flexDirection: "column", alignItems: "center" }}>
-                <FastImage
-                  style={styles.image}
-                  source={{ uri: imageUri }}
-                  resizeMode={'cover'} />
-                <Text>{item.flowerName}</Text>
-                <Text>{item.price}</Text>
+      <View style={styles.container}>
+        <CustomHeader notif={this.props.notif} name="md-arrow-back" navigator={this.props.navigator} cart={true} color="black" logo={true} title="FlowersList" transparent={true} buttonAction={this.goBack} />
 
-              </View>
-            </TouchableOpacity>
-          )
-        }}
-      />
-    </View>
+        {/* <Text>Flowers and bouquets</Text> */}
+        <FlatList
+          style={{ flex: 1 }}
+          ItemSeparatorComponent={this.renderSeparator}
+          data={this.props.Sponsored ? this.props.sponsoredData.data : this.props.unSponsoredData.data}
+          keyExtractor={item => item.flowerImage + Math.random()}
+          numColumns={2}
+          ListFooterComponent={this.renderFooter}
+          refreshing={this.props.Sponsored ? this.props.sponsoredData.refreshing : this.props.unSponsoredData.refreshing}
+          onRefresh={this.handleRefresh}
+          onEndReached={this.handleMore}
+          onEndReachedThreshold={.5}
+          renderItem={({ item }) => {
+            let imageUri = BASE_URL + `/` + item.flowerImage;
+            return (
+              <TouchableOpacity onPress={() => this.startFlowerDetail({
+                uri: imageUri,
+                flowerId: item._id,
+                name: item.flowerName,
+                price: item.price
+              })}>
+                <View style={{ flexDirection: "column", alignItems: "center" }}>
+                  <FastImage
+                    style={styles.image}
+                    source={{ uri: imageUri }}
+                    resizeMode={'cover'}>
+                    <Icon name="md-star" style={{ fontSize: 100, color: this.state.favourite ? "yellow" : "black" }} />
+                  </FastImage>
+                  <Text>{item.flowerName}</Text>
+                  <Text>{item.price}</Text>
+
+                </View>
+              </TouchableOpacity>
+            )
+          }}
+        />
+      </View>
     );
   }
 }
@@ -216,7 +218,7 @@ const mapstateToProps = state => {
     sponsoredData: state.flowers.sponsored,
     unSponsoredData: state.flowers.unSponsored,
     notif: state.flowers.counter,
-    token:state.user.token
+    token: state.user.token
   }
 }
 export default connect(mapstateToProps, mapDispatchToProps)(FlowersList);

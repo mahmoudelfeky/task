@@ -1,4 +1,4 @@
-import { GET_FLOWERS , ADD_TO_CART,GET_CART , CHECKOUT} from "./actionTypes";
+import { GET_FLOWERS , ADD_TO_CART,GET_CART ,ADD_TO_FAV , CHECKOUT} from "./actionTypes";
 import { uiStartLoading, uiStopLoading } from "./ui";
 import BASE_URL from "../../AppConfig";
 export const getFlowers = ( page,token, data,sponsored) => {
@@ -164,6 +164,46 @@ export const addToCart = values => {
         }
     }
 }
+export const addToFav = values => {
+    const url = BASE_URL + `/users/${values.userId}/fav`
+        var data = {
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer ' + values.token
+            },
+            body: JSON.stringify({
+                'flower': values.flowerId
+            })
+        };
+    return async dispatch => {
+        try {
+
+            let response = await fetch(url, data)
+            let responseJson = await response.json();
+            if (responseJson.flowers) {
+                // console.log(response.flowers)
+                dispatch({
+                    type:ADD_TO_FAV,
+                    payload:{
+                        flowers:responseJson.flowers,
+                        totalPrice:responseJson.totalPrice
+                    }
+                })
+               
+            }
+            else {
+                console.log(response)
+            }
+
+        }
+        catch (error) {
+           console.log(error)
+        }
+    }
+}
+
 
 export const handleMore = data => {
     return dispatch => {
