@@ -4,7 +4,7 @@ import BASE_URL from "../../AppConfig";
 import StartHome from "../../screens/StartHome/StartHome";
 export const signIn = (values, bag) => {
     return async dispatch => {
-        const url = BASE_URL + `/user/login`
+        const url = BASE_URL + `/users/login`
 
         var data = {
             method: 'POST',
@@ -61,7 +61,7 @@ export const signUp = (values, bag, image) => {
         }
         // alert(image.uri)
         // return;
-        const url = BASE_URL+`/user/signup`
+        const url = BASE_URL+`/users/signup`
         const data = new FormData();
         data.append('userName', values.userName); // you can append anyone.
         data.append('email', values.email);

@@ -16,6 +16,14 @@ class FlowersList extends Component {
     page: 1,
     refreshing: false
   }
+  constructor(props){
+    super(props)
+    this.props.navigator.setDrawerEnabled({
+      side: "left",
+      enabled: false,
+      screen: "Task.SideDrawer"
+    });
+  }
 
   startFlowerDetail = (values) => {
     this.props.navigator.push({

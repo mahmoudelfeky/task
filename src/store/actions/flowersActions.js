@@ -55,7 +55,7 @@ export const setData = data => {
     }
 }
 export const checkOut = (values)=>{
-    const url = BASE_URL + `/user/${values.userId}/checkout`
+    const url = BASE_URL + `/users/${values.userId}/checkout`
     var data = {
         method: 'POST',
         headers: {
@@ -90,7 +90,7 @@ export const checkOut = (values)=>{
       }
 }
 export const getCart = (values)=>{
-    const url = BASE_URL + `/user/${values.userId}/cart`
+    const url = BASE_URL + `/users/${values.userId}/cart`
         var data = {
             method: 'GET',
             headers: {
@@ -126,7 +126,7 @@ export const getCart = (values)=>{
     }
 }
 export const addToCart = values => {
-    const url = BASE_URL + `/user/${values.userId}/cart`
+    const url = BASE_URL + `/users/${values.userId}/cart`
         var data = {
             method: 'POST',
             headers: {

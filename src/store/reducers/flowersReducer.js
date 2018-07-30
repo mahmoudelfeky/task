@@ -17,7 +17,7 @@ initialState = {
    
     counter:0,
     flowers:[],
-    totalPrices:0
+    totalPrice:0
 
 };
 
@@ -62,14 +62,14 @@ export default reducer = (state = initialState, action) => {
             return{
                 ...state,
                 flowers:action.payload.flowers,
-                totalPrices:action.payload.totalPrices,
+                totalPrice:action.payload.totalPrice,
                 counter:action.payload.flowers.length
             }
             case CHECKOUT:
             return{
                 ...state,
                 flowers:[],
-                totalPrices:0,
+                totalPrice:0,
                 counter:0
             }
         default:

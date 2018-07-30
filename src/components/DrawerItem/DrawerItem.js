@@ -6,7 +6,7 @@ class DrawerItem extends Component{
     render()
     {
         return(
-      <TouchableOpacity>
+      <TouchableOpacity onPress = {()=>this.props.action()}>
           <View style = {styles.drawerItem}>
           <Icon 
           style = {styles.drawerItemIcon}

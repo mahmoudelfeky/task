@@ -5,47 +5,28 @@ import React from "react";
 
 const startTabs = () => {
     Promise.all([
-        Icon.getImageSource(Platform.OS === 'android' ? "md-home" : "ios-home", 30),
-        Icon.getImageSource(Platform.OS === 'android' ? "md-share-alt" : "ios-share", 30),
         Icon.getImageSource(Platform.OS === 'android' ? "md-menu" : "ios-menu", 30)
     ]).then(sources => {
-        Navigation.startTabBasedApp({
-            tabs: [
-                {
-                    screen: "Task.Home",
-                    label: "Home",
-                    title: "Florist",
-                    icon: sources[0],
-                    navigatorButtons: {
-                        leftButtons: [
-                            {
-                                icon: sources[2],
-                                title: "Menu",
-                                id: "sideDrawerToggle"
-                            }
-                        ]
-                    },
-                    navigatorStyle: {
-                        navBarHidden:true
-                    }
-                },
-                
-                
-            ],
-            tabsStyle: {
-                tabBarSelectedButtonColor: "#262262"
-                
+        Navigation.startSingleScreenApp({
+            screen: {
+              screen: 'Task.Home', // unique ID registered with Navigation.registerScreen
+            //   title: 'Welcome', // title of the screen as appears in the nav bar (optional)
+              navigatorStyle: {
+                  navBarHidden:true
+              }, // override the navigator style for the screen, see "Styling the navigator" below (optional)
+              navigatorButtons: {} // override the nav buttons for the screen, see "Adding buttons to the navigator" below (optional)
             },
             drawer: {
-                left: {
-                    screen: "Task.SideDrawer"
-                }
-            },
-            appStyle: {
-                tabBarSelectedButtonColor: "#B12985",
-                tabBarBackgroundColor: '#262262',
-            },
-        });
+              // optional, add this if you want a side menu drawer in your app
+              left: {
+                // optional, define if you want a drawer from the left
+                screen: 'Task.SideDrawer', // unique ID registered with Navigation.registerScreen
+                passProps: {}, // simple serializable object that will pass as props to all top screens (optional)
+                disableOpenGesture: false, // can the drawer be opened with a swipe instead of button (optional, Android only)
+               
+              }
+            }
+          });
     });
 };
 

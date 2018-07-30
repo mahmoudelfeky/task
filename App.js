@@ -9,6 +9,8 @@ import configureStore from './src/store/configureStore';
 import StartHome from "./src/screens/StartHome/StartHome";
 import FlowerDetail from "./src/screens/FlowerDetail/FlowerDetail";
 import FlowersList from "./src/screens/FlowersList/FlowersList";
+import ShoppingCart from "./src/screens/ShoppingCart/ShoppingCart";
+// import Orders from "./src/screens/Orders/Orders";
 import Orders from "./src/screens/Orders/Orders";
 const store = configureStore();
 
@@ -19,6 +21,7 @@ Navigation.registerComponent("Task.FlowersList",()=>FlowersList,store,Provider)
 Navigation.registerComponent("Task.Home",()=>Home,store,Provider)
 Navigation.registerComponent("Task.SideDrawer",()=>SideDrawer)
 Navigation.registerComponent("Task.FlowerDetail",()=>FlowerDetail,store,Provider)
+Navigation.registerComponent("Task.ShoppingCart",()=>ShoppingCart,store,Provider)
 
 Navigation.registerComponent("Task.Orders",()=>Orders,store,Provider)
 

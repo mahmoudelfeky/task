@@ -3,9 +3,9 @@ import { View, Text ,StyleSheet, TouchableOpacity } from "react-native";
 import { Icon } from "native-base";
 
 class Cart extends Component {
-    showOrders = ()=>{
+    showShoppingCart = ()=>{
             this.props.navigator.push({
-              screen: 'Task.Orders', // unique ID registered with Navigation.registerScreen
+              screen: 'Task.ShoppingCart', // unique ID registered with Navigation.registerScreen
               title: "Flowers List",
               navigatorStyle: {
                 navBarHidden: true,
@@ -25,7 +25,7 @@ class Cart extends Component {
         </View>)
         }
         return (
-            <TouchableOpacity onPress = {this.showOrders}>
+            <TouchableOpacity onPress = {this.showShoppingCart}>
             <View style={styles.container}>
                {notif}
                 <Icon name = "ios-cart-outline" style = {{marginTop:12}}/>
