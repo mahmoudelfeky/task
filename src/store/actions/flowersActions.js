@@ -10,6 +10,7 @@ export const getFlowers = ( page,token, data,sponsored) => {
             }))
             
         const url = BASE_URL+`/flowers?page=${page}&limit=10&sponsored=${sponsored}`
+        // console.log(url)
         fetch(url, {
             method: "GET",
             headers: {
@@ -18,6 +19,11 @@ export const getFlowers = ( page,token, data,sponsored) => {
           })
             .then(res => res.json())
             .then(res => {
+                // if(page === 1)
+
+                // {
+                //     console.log(res.flowers)
+                // }
                 setTimeout(() => {
                 //    console.log(res)
                     dispatch(

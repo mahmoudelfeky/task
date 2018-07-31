@@ -12,6 +12,7 @@ import FlowersList from "./src/screens/FlowersList/FlowersList";
 import ShoppingCart from "./src/screens/ShoppingCart/ShoppingCart";
 import Orders from "./src/screens/Orders/Orders";
 import Profile from "./src/screens/Profile/Profile";
+import RecycleTestComponent from "./src/screens/RecycleTestComponent";
 
 
 const store = configureStore();
@@ -26,6 +27,7 @@ Navigation.registerComponent("Task.FlowerDetail",()=>FlowerDetail,store,Provider
 Navigation.registerComponent("Task.ShoppingCart",()=>ShoppingCart,store,Provider)
 Navigation.registerComponent("Task.Profile",()=>Profile,store,Provider)
 Navigation.registerComponent("Task.Orders",()=>Orders,store,Provider)
+Navigation.registerComponent("Task.RecycleTestComponent",()=>RecycleTestComponent,store,Provider)
 
 
 Navigation.startSingleScreenApp({

@@ -65,8 +65,8 @@ class FlowersList extends Component {
 
   componentDidMount() {
     // console.log(this.props.Sponsored, this.props.sponsoredData, this.props.unSponsoredData)
-    // this.props.onGetFlowers(this.state.page, this.props.token, this.props.Sponsored ?
-    //   this.props.sponsoredData : this.props.unSponsoredData, this.props.Sponsored);
+    this.props.onGetFlowers(this.state.page, this.props.token, this.props.Sponsored ?
+      this.props.sponsoredData : this.props.unSponsoredData, this.props.Sponsored);
   }
 
 
@@ -74,7 +74,7 @@ class FlowersList extends Component {
     this.setState({
       page: 1,
       refreshing: true
-    }, () => this.props.onGetFlowers(this.state.page, this.props.Sponsored ?
+    }, () => this.props.onGetFlowers(this.state.page,this.props.token, this.props.Sponsored ?
       this.props.sponsoredData : this.props.unSponsoredData, this.props.Sponsored))
 
   }
@@ -172,6 +172,7 @@ class FlowersList extends Component {
           data={this.props.Sponsored ? this.props.sponsoredData.data : this.props.unSponsoredData.data}
           keyExtractor={item => item.flowerImage + Math.random()}
           numColumns={2}
+          extraData = {this.props.data}
           ListFooterComponent={this.renderFooter}
           refreshing={this.props.Sponsored ? this.props.sponsoredData.refreshing : this.props.unSponsoredData.refreshing}
           onRefresh={this.handleRefresh}
