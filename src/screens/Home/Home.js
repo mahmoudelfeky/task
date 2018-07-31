@@ -82,7 +82,7 @@ class Home extends Component {
 
     }
 
-    console.log(this.props.sponsoredData.loading,this.props.unSponsoredData.loading)
+    // console.log(this.props.sponsoredData.loading,this.props.unSponsoredData.loading)
     return (
       <View style={{ flex: 1 }}>
 

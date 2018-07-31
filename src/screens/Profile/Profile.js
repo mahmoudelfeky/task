@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Image, StyleSheet } from 'react-native';
 import { Container, Header, Content, Card, CardItem, Thumbnail, Text, Button, Icon, Left, Body, Right, View } from 'native-base';
+import CustomHeader from "../../components/CustomHeader/CustomHeader";
 import FastImage from "react-native-fast-image";
 export default class Profile extends Component {
   constructor(props) {
@@ -14,7 +15,7 @@ export default class Profile extends Component {
   render() {
     return (
       <Container>
-        <Header />
+       <CustomHeader name = "md-arrow-back" navigator = {this.props.navigator} buttonAction = {this.goBack} transparent = {true} color ="black"/>
         <Content>
           <Card>
             <Image source={require("../../assets/profileBg.jpg")} style={{ height: 300, width: null, marginBottom: 100, flex: 1 }} />
@@ -52,7 +53,7 @@ export default class Profile extends Component {
             <CardItem>
             <View style = {{flexDirection:"row"}} >
               <Icon name = "ios-call-outline" />
-            <Text style = {{marginLeft:15}} >Phone Number </Text>
+            <Text style = {{marginLeft:15}} >Phone Number{"\n"}01092745355 </Text>
             </View>
             </CardItem>
             </Card>

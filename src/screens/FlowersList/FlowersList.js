@@ -9,13 +9,14 @@ import BASE_URL from "../../AppConfig";
 import FastImage from 'react-native-fast-image'
 const { width, height } = Dimensions.get('window');
 import FavouriteIcon from "../../components/FavouriteIcon/FavouriteIcon";
-
+import LoadingOverlay from "../../components/LoadingOverlay/LoadingOverlay";
 const equalWidth = (width / 2)
 
 class FlowersList extends Component {
   state = {
     page: 1,
-    refreshing: false
+    refreshing: false,
+    clicked:false
   }
   constructor(props) {
     super(props)
@@ -24,9 +25,32 @@ class FlowersList extends Component {
       enabled: false,
       screen: "Task.SideDrawer"
     });
+    this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent.bind(this));
   }
-
+  onNavigatorEvent(event) {
+    switch(event.id) {
+      case 'willAppear':
+       break;
+      case 'didAppear':
+        break;
+      case 'willDisappear':
+        break;
+      case 'didDisappear':
+      this.setState({
+        clicked:false
+      })
+        break;
+      case 'willCommitPreview':
+        break;
+    }
+  }
+// coponentdi
   startFlowerDetail = (values) => {
+    if(this.state.clicked)
+    return;
+    this.setState({
+      clicked:true
+    })
     this.props.navigator.push({
       screen: 'Task.FlowerDetail', // unique ID registered with Navigation.registerScreen
       title: "Flower Detail",
@@ -40,7 +64,7 @@ class FlowersList extends Component {
   }
 
   componentDidMount() {
-    console.log(this.props.Sponsored, this.props.sponsoredData, this.props.unSponsoredData)
+    // console.log(this.props.Sponsored, this.props.sponsoredData, this.props.unSponsoredData)
     // this.props.onGetFlowers(this.state.page, this.props.token, this.props.Sponsored ?
     //   this.props.sponsoredData : this.props.unSponsoredData, this.props.Sponsored);
   }
@@ -88,15 +112,15 @@ class FlowersList extends Component {
   }
   renderFooter = () => {
     // alert(this.props.loading)
-    console.log("###########", this.props.sponsoredData.loading);
-    console.log("$$$$$$$$$$$$$$, ", this.props.unSponsoredData.loading);
+    // console.log("###########", this.props.sponsoredData.loading);
+    // console.log("$$$$$$$$$$$$$$, ", this.props.unSponsoredData.loading);
 
     flag = false
     if (this.props.Sponsored) {
 
       if (!this.props.sponsoredData.loading) {
         flag = true;
-        console.log("@@@@@@@555555555555555@");
+        // console.log("@@@@@@@555555555555555@");
 
         return null;
       }
@@ -104,14 +128,14 @@ class FlowersList extends Component {
     else {
 
       if (!this.props.unSponsoredData.loading) {
-        console.log("gggggggggggggg");
+        // console.log("gggggggggggggg");
 
         flag = true;
         return null;
       }
     }
 
-    console.log("render footer " + "%%%%%")
+    // console.log("render footer " + "%%%%%")
     return (
 
       <View
@@ -135,8 +159,10 @@ class FlowersList extends Component {
   render() {
     // alert(this.props.sponsored?this.props.sponsored.pageCount:this.props.unSponsoredData.pageCount)
     // console.log(this.props.Sponsored,this.props.sponsoredData,this.props.unSponsoredData)
+    let loadingScreen = this.state.clicked?<LoadingOverlay/>:null;
     return (
       <View style={styles.container}>
+      {loadingScreen}
         <CustomHeader notif={this.props.notif} name="md-arrow-back" navigator={this.props.navigator} cart={true} color="black" logo={true} title="FlowersList" transparent={true} buttonAction={this.goBack} />
 
         {/* <Text>Flowers and bouquets</Text> */}
@@ -165,7 +191,7 @@ class FlowersList extends Component {
                     style={styles.image}
                     source={{ uri: imageUri }}
                     resizeMode={'cover'}>
-                  <FavouriteIcon fav = {item.sponsored} userId = {this.props.userId} token = {this.props.token} flowerId = {item._id} />
+                  <FavouriteIcon fav = {item.isFav} userId = {this.props.userId} token = {this.props.token} flowerId = {item._id} />
                   </FastImage>
                   <Text>{item.flowerName}</Text>
                   <Text>{item.price}</Text>

@@ -3,7 +3,6 @@ import { uiStartLoading, uiStopLoading } from "./ui";
 import BASE_URL from "../../AppConfig";
 export const getFlowers = ( page,token, data,sponsored) => {
     return dispatch => {
-        console.log("asjashjas"+ sponsored)
         dispatch(
             setData({
                 loading: true,
