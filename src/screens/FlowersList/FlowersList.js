@@ -1,31 +1,63 @@
-import React, { Component } from "react";
-import { View, FlatList, ActivityIndicator, StyleSheet, TouchableOpacity, Dimensions } from "react-native";
-import { connect } from "react-redux";
-import { getFlowers, handleMore } from "../../store/actions/flowersActions";
-import { ListItem, Left, Body, Right, Thumbnail, Text, SearchBar } from 'native-base';
-import { Header  , Icon} from "native-base";
-import CustomHeader from "../../components/CustomHeader/CustomHeader";
+import React, { Component, version } from 'react';
+import { Text, View, Dimensions, StyleSheet, Image, Button,TouchableOpacity,
+   FlatList, ActivityIndicator, RefreshControl } from 'react-native';
+import {
+  RecyclerListView,
+  DataProvider,
+  LayoutProvider,
+} from 'recyclerlistview';
 import BASE_URL from "../../AppConfig";
+import { connect } from "react-redux";
+import CustomHeader from "../../components/CustomHeader/CustomHeader";
+
 import FastImage from 'react-native-fast-image'
-const { width, height } = Dimensions.get('window');
 import FavouriteIcon from "../../components/FavouriteIcon/FavouriteIcon";
+const image = require("../../assets/profileBg.jpg")
 import LoadingOverlay from "../../components/LoadingOverlay/LoadingOverlay";
-const equalWidth = (width / 2)
+
 
 class FlowersList extends Component {
-  state = {
-    page: 1,
-    refreshing: false,
-    clicked:false
-  }
   constructor(props) {
-    super(props)
+    super(props);
     this.props.navigator.setDrawerEnabled({
       side: "left",
       enabled: false,
       screen: "Task.SideDrawer"
     });
     this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent.bind(this));
+    const { width } = Dimensions.get('window');
+
+
+    this._layoutProvider = new LayoutProvider(
+      index => 1,
+      (type, dim) => {
+        switch (type) {
+          case 1:
+            dim.width = width;
+            dim.height = width*.75;
+            break;
+          default:
+            dim.width = 0;
+            dim.height = 0;
+        }
+      },
+    );
+
+
+    this.state = {
+      // dataProvider2: this.generateArray(3000),
+      dataProvider: new DataProvider(),
+      loading: false,
+      refrsh: false,
+      clicked:false
+
+    };
+  }
+  page = 1;
+  componentDidMount() {
+    const { page } = this.state;
+    this.generateArray(page);
+
   }
   onNavigatorEvent(event) {
     switch(event.id) {
@@ -44,7 +76,60 @@ class FlowersList extends Component {
         break;
     }
   }
-// coponentdi
+
+
+  generateArray(page) {
+    const url = BASE_URL+`/flowers?page=${page}&limit=10&sponsored=${this.props.Sponsored}`
+    this.setState({ loading: true, refrsh: false });
+    fetch(url,{
+      method: "GET",
+      headers: {
+        'Authorization': 'Bearer ' + this.props.token
+      }
+    })
+      .then(res => res.json())
+      .then(res => {
+        console.log("dataaaaaa", res);
+
+        const dataProvider = new DataProvider((r1, r2) => r1._id !== r2._id);
+        this.setState({
+
+          dataProvider:
+            page === 1 ?
+              dataProvider.cloneWithRows(res.flowers)
+              :
+              dataProvider.cloneWithRows([...this.state.dataProvider.getAllData(), ...res.flowers]),
+
+          loading: false,
+          refrsh: false,
+        })
+
+      })
+      .catch(error => {
+        this.setState({ loading: false, refrsh: false });
+      });
+  }
+
+  refreshArray() {
+    const url = BASE_URL+`/flowers?page=1&limit=10&sponsored=${this.props.Sponsored}`
+    this.setState({ loading: false, refrsh: true });
+    fetch(url)
+      .then(res => res.json())
+      .then(res => {
+        console.log("dataaaaaa", res);
+
+        const dataProvider = new DataProvider((r1, r2) => r1._id !== r2._id);
+        this.setState({
+          dataProvider: dataProvider.cloneWithRows(res.flowers),
+          loading: false,
+          refrsh: false,
+        })
+
+      })
+      .catch(error => {
+        this.setState({ loading: false, refrsh: false });
+      });
+  }
   startFlowerDetail = (values) => {
     if(this.state.clicked)
     return;
@@ -62,156 +147,92 @@ class FlowersList extends Component {
       }
     })
   }
+  _rowRenderer = (type, data)=> {
+    switch (type) {
+      case 1:
+      let imageUri = BASE_URL + `/` + data.flowerImage;
+        return (
+          <TouchableOpacity style = {{flex:1}} onPress={() => this.startFlowerDetail({
+            uri: imageUri,
+            flowerId: data._id,
+            name: data.flowerName,
+            price: data.price
+          })}>
 
-  componentDidMount() {
-    // console.log(this.props.Sponsored, this.props.sponsoredData, this.props.unSponsoredData)
-    this.props.onGetFlowers(this.state.page, this.props.token, this.props.Sponsored ?
-      this.props.sponsoredData : this.props.unSponsoredData, this.props.Sponsored);
-  }
+             <View style={{ flexDirection: "column",
+              alignItems: "center" ,
+              margin: 10,
+              marginTop:40,
+             
+              flex: 1,
+              borderRadius: 5,
+              
+              }}>
+                  <FastImage
+                    style={styles.image}
+                    source={{uri:imageUri}}
+                    resizeMode={'cover'}/>
+                     <FavouriteIcon style = {{position:`absolute`}} fav = {data.isFav} userId = {this.props.userId} token = {this.props.token} flowerId = {data._id} />
+                 
+                  <Text>{data.flowerName}</Text>
+                  <Text>{data.price}</Text>
 
+                </View>
 
-  handleRefresh = () => {
-    this.setState({
-      page: 1,
-      refreshing: true
-    }, () => this.props.onGetFlowers(this.state.page,this.props.token, this.props.Sponsored ?
-      this.props.sponsoredData : this.props.unSponsoredData, this.props.Sponsored))
-
-  }
-
-  handleMore = () => {
-
-    // console.log(this.props.Sponsored,this.props.sponsoredData.loading,this.props.unSponsoredData.loading,this.props.sponsoredData.pageCount , this.state.page)
-    flag = false
-    if (this.props.Sponsored) {
-      if (this.props.sponsoredData.pageCount <= this.state.page) {
-        flag = true;
-        return;
-      }
+          </TouchableOpacity>
+        );
+      default:
+        return null;
     }
-    else {
-      if (this.props.unSponsoredData.pageCount <= this.state.page) {
-        flag = true
-        return;
-      }
-    }
-
-    // console.log("handle more"+ flag)
-    this.setState({
-      page: this.state.page + 1
-    }, () => this.props.onGetFlowers(this.state.page, this.props.token, this.props.Sponsored ?
-      this.props.sponsoredData.data : this.props.unSponsoredData.data, this.props.Sponsored))
   }
 
-
-  renderSeparator = () => {
-    return (
-      <View
-        style={styles.seperator} />
-    )
+  handleListEnd = () => {
+    this.page++;
+    this.generateArray(this.page);
   }
   renderFooter = () => {
-    // alert(this.props.loading)
-    // console.log("###########", this.props.sponsoredData.loading);
-    // console.log("$$$$$$$$$$$$$$, ", this.props.unSponsoredData.loading);
-
-    flag = false
-    if (this.props.Sponsored) {
-
-      if (!this.props.sponsoredData.loading) {
-        flag = true;
-        // console.log("@@@@@@@555555555555555@");
-
-        return null;
-      }
-    }
-    else {
-
-      if (!this.props.unSponsoredData.loading) {
-        // console.log("gggggggggggggg");
-
-        flag = true;
-        return null;
-      }
-    }
-
-    // console.log("render footer " + "%%%%%")
     return (
-
-      <View
-        style={{
-          paddingVertical: 20,
-          borderTopWidth: 1,
-          borderColor: "#CED0CE",
-          marginTop: 10
-        }}
-      >
-        <ActivityIndicator animating size="large" />
-      </View>
-    );
-  }
-  goBack = () => {
-    this.props.navigator.pop({
-      animated: true, // does the pop have transition animation or does it happen immediately (optional)
-      animationType: 'fade', // 'fade' (for both) / 'slide-horizontal' (for android) does the pop have different transition animation (optional)
-    });
+      this.state.loading ?
+        <ActivityIndicator
+          style={{ margin: 10 }}
+          size="large"
+          color={'black'}
+        /> : null
+    )
   }
   render() {
-    // alert(this.props.sponsored?this.props.sponsored.pageCount:this.props.unSponsoredData.pageCount)
-    // console.log(this.props.Sponsored,this.props.sponsoredData,this.props.unSponsoredData)
     let loadingScreen = this.state.clicked?<LoadingOverlay/>:null;
     return (
       <View style={styles.container}>
-      {loadingScreen}
-        <CustomHeader notif={this.props.notif} name="md-arrow-back" navigator={this.props.navigator} cart={true} color="black" logo={true} title="FlowersList" transparent={true} buttonAction={this.goBack} />
+     
+     <CustomHeader notif={this.props.notif} name="md-arrow-back" navigator={this.props.navigator} cart={true} color="black" logo={true} title="FlowersList" transparent={true} buttonAction={this.goBack} />
 
-        {/* <Text>Flowers and bouquets</Text> */}
-        <FlatList
-          style={{ flex: 1 }}
-          ItemSeparatorComponent={this.renderSeparator}
-          data={this.props.Sponsored ? this.props.sponsoredData.data : this.props.unSponsoredData.data}
-          keyExtractor={item => item.flowerImage + Math.random()}
-          numColumns={2}
-          extraData = {this.props.data}
-          ListFooterComponent={this.renderFooter}
-          refreshing={this.props.Sponsored ? this.props.sponsoredData.refreshing : this.props.unSponsoredData.refreshing}
-          onRefresh={this.handleRefresh}
-          onEndReached={this.handleMore}
-          onEndReachedThreshold={.5}
-          renderItem={({ item }) => {
-            let imageUri = BASE_URL + `/` + item.flowerImage;
-            return (
-              <TouchableOpacity onPress={() => this.startFlowerDetail({
-                uri: imageUri,
-                flowerId: item._id,
-                name: item.flowerName,
-                price: item.price
-              })}>
-                <View style={{ flexDirection: "column", alignItems: "center" }}>
-                  <FastImage
-                    style={styles.image}
-                    source={{ uri: imageUri }}
-                    resizeMode={'cover'}>
-                  <FavouriteIcon fav = {item.isFav} userId = {this.props.userId} token = {this.props.token} flowerId = {item._id} />
-                  </FastImage>
-                  <Text>{item.flowerName}</Text>
-                  <Text>{item.price}</Text>
-
-                </View>
-              </TouchableOpacity>
-            )
-          }}
-        />
-      </View>
+      <RecyclerListView
+        layoutProvider={this._layoutProvider}
+        dataProvider={this.state.dataProvider}
+        rowRenderer={this._rowRenderer}
+        renderFooter={this.renderFooter}
+        onEndReached={this.handleListEnd}
+        refreshControl={<RefreshControl refreshing={this.state.refrsh} onRefresh={() => this.refreshArray()} />}
+      />
+       {loadingScreen}
+</View>
     );
   }
 }
+const mapstateToProps = state => {
+  return {
+    notif: state.flowers.counter,
+    token: state.user.token,
+    userId: state.user.user._id
+  }
+}
+
 const imageMarign = 5;
 const styles = StyleSheet.create({
   container: {
-    flexDirection: "column",
-    alignItems: "center",
-    flex: 1
+    width:`100%`,
+    height:`100%`
   },
   List: {
     borderBottomWidth: 0,
@@ -229,25 +250,10 @@ const styles = StyleSheet.create({
     borderColor: "#CED0CE"
   },
   image: {
-    width: (Dimensions.get("window").width - imageMarign * 4) / 2,
+    width: `100%`,
     height: 200,
     margin: imageMarign
 
   }
 })
-const mapDispatchToProps = dispatch => {
-  return {
-    onGetFlowers: (page, token, data, Sponsored) => dispatch(getFlowers(page, token, data, Sponsored))
-    // onhandeleMore: (data) => dispatch(handleMore(data))
-  }
-}
-const mapstateToProps = state => {
-  return {
-    sponsoredData: state.flowers.sponsored,
-    unSponsoredData: state.flowers.unSponsored,
-    notif: state.flowers.counter,
-    token: state.user.token,
-    userId: state.user.user._id
-  }
-}
-export default connect(mapstateToProps, mapDispatchToProps)(FlowersList);
+export default connect(mapstateToProps, null)(FlowersList);

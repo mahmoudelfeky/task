@@ -103,6 +103,12 @@ export default class Screen2 extends Component {
     switch (type) {
       case 1:
         return (
+          <TouchableOpacity onPress={() => this.startFlowerDetail({
+            uri: imageUri,
+            flowerId: item._id,
+            name: item.flowerName,
+            price: item.price
+          })}>
           <Cell
             style={{
               margin: 10,
@@ -131,6 +137,7 @@ export default class Screen2 extends Component {
             </View>
 
           </Cell>
+          </TouchableOpacity>
         );
       default:
         return null;

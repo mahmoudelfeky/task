@@ -33,7 +33,7 @@ class Home extends Component {
   }
   loadFlowersList = (Sponsored) => {
     this.props.navigator.push({
-      screen: 'Task.RecycleTestComponent', // unique ID registered with Navigation.registerScreen
+      screen: 'Task.FlowersList', // unique ID registered with Navigation.registerScreen
       title: "Flowers List",
       passProps: {
         Sponsored
