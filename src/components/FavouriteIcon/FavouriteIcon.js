@@ -73,7 +73,7 @@ export default class FavouriteIcon extends Component {
 
                 <TouchableOpacity style={{ alignSelf: `center` }} onPress={() => this.addToFav()} >
                     <Icon name="md-star"
-                        style={{ fontSize: 100, color: this.state.color? `yellow` :`black`  }} />
+                        style={{ fontSize: 50, color: this.state.color? `yellow` :`black`  }} />
                 </TouchableOpacity>
                 {loadingScreen}
             </View>

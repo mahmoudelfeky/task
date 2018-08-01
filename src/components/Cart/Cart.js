@@ -20,7 +20,7 @@ class Cart extends Component {
         if(this.props.notif>0)
         {
             notif = (
-            <View style={{ position:"absolute",marginLeft:12,width:25,height:25, borderRadius: 100, backgroundColor: "#ED217C" ,justifyContent:"center" ,alignItems:"center"}}>
+            <View style={{ position:"absolute",marginLeft:12,width:24,height:24, borderRadius: 100, backgroundColor: "#ED217C" ,justifyContent:"center" ,alignItems:"center"}}>
             <Text>{this.props.notif}</Text>
         </View>)
         }
@@ -40,7 +40,8 @@ const styles = StyleSheet.create({
     container: {
         width: 50,
         height: 50,
-        marginTop:30
+        marginTop:30,
+        paddingBottom:80
     }
 })
 

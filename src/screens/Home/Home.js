@@ -86,7 +86,7 @@ class Home extends Component {
     return (
       <View style={{ flex: 1 }}>
 
-        <CustomHeader notif={this.props.notif} name="md-menu" navigator={this.props.navigator} cart={true} color="#9F9F9F" logo={true} title="FlowersList" transparent={true} buttonAction={this.toggleDrawer} />
+        <CustomHeader notif={this.props.notif} name="md-menu" navigator={this.props.navigator} cart={true} color="#9F9F9F"  title={"WINNI"} transparent={true} buttonAction={this.toggleDrawer} />
 
         <ScrollView style={{ width: "100%" }}>
           <View style={{ height: 300, marginTop: 10 }}>

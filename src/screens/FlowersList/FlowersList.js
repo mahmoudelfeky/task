@@ -33,7 +33,7 @@ class FlowersList extends Component {
       (type, dim) => {
         switch (type) {
           case 1:
-            dim.width = width;
+            dim.width =Math.floor( width/2);
             dim.height = width*.75;
             break;
           default:
@@ -56,7 +56,7 @@ class FlowersList extends Component {
   page = 1;
   componentDidMount() {
     const { page } = this.state;
-    this.generateArray(page);
+    this.generateArray(this.page);
 
   }
   onNavigatorEvent(event) {
@@ -112,21 +112,27 @@ class FlowersList extends Component {
 
   refreshArray() {
     const url = BASE_URL+`/flowers?page=1&limit=10&sponsored=${this.props.Sponsored}`
+    console.log(url)
     this.setState({ loading: false, refrsh: true });
     fetch(url)
       .then(res => res.json())
       .then(res => {
-        console.log("dataaaaaa", res);
+
+     let data = [];
+        while(res.flowers) data.push(res.flowers.splice(0,2));
+        // console.log(data)
+
 
         const dataProvider = new DataProvider((r1, r2) => r1._id !== r2._id);
         this.setState({
-          dataProvider: dataProvider.cloneWithRows(res.flowers),
+          dataProvider: dataProvider.cloneWithRows(data),
           loading: false,
           refrsh: false,
         })
 
       })
       .catch(error => {
+        console.log(error)
         this.setState({ loading: false, refrsh: false });
       });
   }
@@ -147,39 +153,53 @@ class FlowersList extends Component {
       }
     })
   }
+  rederRow = (item)=>{
+    // return row.map(item=>{
+      
+      let imageUri = BASE_URL + `/` + item.flowerImage;
+      return(
+        <TouchableOpacity key = {Math.random().toString()} style = {{flex:1}} onPress={() => this.startFlowerDetail({
+          uri: imageUri,
+          flowerId: item._id,
+          name: item.flowerName,
+          price: item.price
+        })}>
+
+           <View style={{ flexDirection: "column",
+            alignItems: "center" ,
+            margin: 10,
+            marginTop:40,
+           backgroundColor:"grey",
+            flex: 1,
+            borderRadius: 5,
+            
+            }}>
+                <FastImage
+                  style={styles.image}
+                  source={{uri:imageUri}}
+                  resizeMode={'cover'}/>
+                   <FavouriteIcon style = {{position:`absolute` ,alignSelf:"flex-end"}} fav = {item.isFav} userId = {this.props.userId} token = {this.props.token} flowerId = {item._id} />
+               
+                <Text>{item.flowerName}</Text>
+                <Text>{item.price}</Text>
+
+              </View>
+
+        </TouchableOpacity>
+      )
+      
+    // })
+  }
   _rowRenderer = (type, data)=> {
+    // console.log(data,type)
     switch (type) {
-      case 1:
-      let imageUri = BASE_URL + `/` + data.flowerImage;
+      case 1  :
+     
         return (
-          <TouchableOpacity style = {{flex:1}} onPress={() => this.startFlowerDetail({
-            uri: imageUri,
-            flowerId: data._id,
-            name: data.flowerName,
-            price: data.price
-          })}>
-
-             <View style={{ flexDirection: "column",
-              alignItems: "center" ,
-              margin: 10,
-              marginTop:40,
-             
-              flex: 1,
-              borderRadius: 5,
-              
-              }}>
-                  <FastImage
-                    style={styles.image}
-                    source={{uri:imageUri}}
-                    resizeMode={'cover'}/>
-                     <FavouriteIcon style = {{position:`absolute`}} fav = {data.isFav} userId = {this.props.userId} token = {this.props.token} flowerId = {data._id} />
-                 
-                  <Text>{data.flowerName}</Text>
-                  <Text>{data.price}</Text>
-
-                </View>
-
-          </TouchableOpacity>
+          <View style = {{flex:1,flexDirection:"row"}}>
+          
+          {this.rederRow(data)}
+          </View>
         );
       default:
         return null;
@@ -187,6 +207,7 @@ class FlowersList extends Component {
   }
 
   handleListEnd = () => {
+
     this.page++;
     this.generateArray(this.page);
   }
