@@ -12,6 +12,12 @@ export default class Profile extends Component {
       screen: "Task.SideDrawer"
     });
   }
+  goBack = () => {
+    this.props.navigator.pop({
+      animated: true, // does the pop have transition animation or does it happen immediately (optional)
+      animationType: 'fade', // 'fade' (for both) / 'slide-horizontal' (for android) does the pop have different transition animation (optional)
+    });
+  }
   render() {
     return (
       <Container>

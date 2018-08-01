@@ -67,11 +67,7 @@ class SiderDrawer extends Component {
                     </View>
                 </View >
                 <View>
-                    <DrawerItem name={Platform.OS === "android" ? "md-home" : "ios-home"}
-                        size={30}
-                        color="#aaa"
-                        title="Home" />
-                    <DrawerItem name={Platform.OS === "android" ? "md-log-out" : "ios-log-out"}
+                    <DrawerItem name={ "ios-cart-outline" }
                         size={30}
                         color="#aaa"
                         title="Orders"

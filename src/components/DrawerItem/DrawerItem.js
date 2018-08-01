@@ -6,7 +6,7 @@ class DrawerItem extends Component{
     render()
     {
         return(
-      <TouchableOpacity onPress = {()=>this.props.action()}>
+      <TouchableOpacity style = {{marginBottom:10}} onPress = {()=>this.props.action()}>
           <View style = {styles.drawerItem}>
           <Icon 
           style = {styles.drawerItemIcon}
@@ -21,13 +21,13 @@ const styles = StyleSheet.create({
    
     drawerItem: {
         flexDirection:"row",
-        padding: 30,
+        paddingLeft: 30,
         alignItems:"center",
         marginTop:10,
         marginLeft:10,
     },
     drawerItemIcon:{
-        marginRight:50
+        marginRight:40
     },
     
 })

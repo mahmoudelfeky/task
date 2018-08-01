@@ -46,7 +46,7 @@ export default class CustomHeader extends Component {
             </Button>
           </Left>
           <Body>
-        <Text style = {{marginLeft:30,fontSize:32,color:"#702886"}} >FLORIST</Text>
+        <Text style = {{marginLeft:30,fontSize:32,color:"#702886"}} >{this.props.title?"FLORIST":""}</Text>
           </Body>
           <Right>
            {cart}
